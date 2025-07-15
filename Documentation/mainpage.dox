@@ -1,0 +1,253 @@
+/** \mainpage Librería NSDSP - Procesamiento Digital de Señales No Estacionarias
+ *
+ * \section intro Introducción
+ * 
+ * NSDSP es una librería de procesamiento digital de señales diseñada para sistemas embebidos
+ * y aplicaciones en tiempo real. La librería está optimizada para:
+ * - Uso de memoria estática (sin asignación dinámica)
+ * - Procesamiento muestra a muestra
+ * - Múltiples instancias concurrentes de cada recurso
+ * - Arquitectura modular y extensible
+ *
+ * \section arquitectura Arquitectura General
+ *
+ * \dot
+ * digraph G {
+ *   rankdir=TB;
+ *   node [shape=box, style=filled];
+ *   
+ *   subgraph cluster_app {
+ *     label="Aplicación de Usuario";
+ *     style=dashed;
+ *     APP [label="main.c", fillcolor=lightgreen];
+ *   }
+ *   
+ *   subgraph cluster_nsdsp {
+ *     label="Librería NSDSP";
+ *     style=filled;
+ *     fillcolor=lightgray;
+ *     
+ *     NSDSP [label="NSDSP.h/c", fillcolor=lightblue];
+ *     STAT [label="nsdsp_statistical.h", fillcolor=lightyellow];
+ *     
+ *     subgraph cluster_resources {
+ *       label="Recursos";
+ *       RT [label="RT_Momentos", fillcolor=lightcoral];
+ *       // Futuros recursos
+ *       FUTURE [label="Futuros\nRecursos", fillcolor=lightgray, style=dashed];
+ *     }
+ *   }
+ *   
+ *   APP -> NSDSP [label="include"];
+ *   NSDSP -> STAT;
+ *   NSDSP -> RT;
+ *   NSDSP -> FUTURE [style=dashed];
+ *   STAT -> RT [label="vista de datos", style=dashed];
+ * }
+ * \enddot
+ *
+ * \section servicios Servicios Disponibles
+ *
+ * \subsection rt_momentos RT_Momentos - Cálculo de Momentos Estadísticos
+ * 
+ * Calcula en tiempo real los 4 primeros momentos estadísticos de una señal:
+ * - **Media (M1)**: Valor promedio de la señal
+ * - **Varianza (M2)**: Dispersión de los valores respecto a la media
+ * - **Asimetría (M3)**: Medida de la asimetría de la distribución
+ * - **Curtosis (M4)**: Medida del apuntamiento de la distribución
+ *
+ * **Características:**
+ * - Hasta 4 instancias concurrentes (MAX_RT_MOMENTOS)
+ * - Ventana de muestras seleccionable mediante el párametro (N_MA)
+ * - Procesamiento muestra a muestra en tiempo real
+ * - Protección contra división por cero
+ *
+ * \section patron Patrón de Uso de Recursos
+ *
+ * Todos los recursos de NSDSP siguen el mismo patrón de uso:
+ *
+ * \dot
+ * digraph usage {
+ *   rankdir=LR;
+ *   node [shape=box, style=rounded];
+ *   
+ *   INIT [label="Init_[recurso]()", style=filled, fillcolor=lightgreen];
+ *   SUB [label="Suscribe_[recurso]()", style=filled, fillcolor=lightyellow];
+ *   COMP [label="Compute_[recurso]()", style=filled, fillcolor=lightblue];
+ *   UNSUB [label="Unsuscribe_[recurso]()", style=filled, fillcolor=lightcoral];
+ *   
+ *   INIT -> SUB [label="1"];
+ *   SUB -> COMP [label="2"];
+ *   COMP -> COMP [label="3\nrepetir"];
+ *   COMP -> UNSUB [label="4"];
+ * }
+ * \enddot
+ *
+ * \section dependencias Dependencias
+ *
+ * **Librerías estándar requeridas:**
+ * - stdio.h (para definiciones básicas)
+ * - stdlib.h (para tipos estándar)
+ * - math.h (para funciones matemáticas: sqrt)
+ *
+ * **Requisitos del compilador:**
+ * - Soporte para C99 o superior
+ * - Soporte para punto flotante
+ *
+ * **Requisitos de memoria:**
+ * - Toda la memoria es estática
+ * - RT_Momentos: aproximadamente 4KB (4 servicios × 4 buffers × 64 muestras × 4 bytes)
+ *
+ * \section uso Como Usar la Librería
+ *
+ * \subsection paso1 Paso 1: Incluir el archivo principal
+ * \code
+ * #include "NSDSP.h"
+ * \endcode
+ *
+ * \subsection paso2 Paso 2: Inicializar la librería
+ * \code
+ * int main(void)
+ * {
+ *     // Inicializar todos los recursos
+ *     Init_NSDSP();
+ * \endcode
+ *
+ * \subsection paso3 Paso 3: Obtener un servicio
+ * \code
+ *     // Suscribirse a un servicio de momentos
+ *     RT_MOMENTOS_SERVICE servicio;
+ *     servicio = pse.suscribe_rt_momentos();
+ *     
+ *     if (servicio == NONE)
+ *     {
+ *         // No hay servicios disponibles
+ *         return -1;
+ *     }
+ * \endcode
+ *
+ * \subsection paso4 Paso 4: Procesar señales
+ * \code
+ *     float muestra;
+ *     int resultado;
+ *     
+ *     // Procesar muestras de señal
+ *     while (/* condición de procesamiento */)
+ *     {
+ *         muestra = obtener_muestra();  // Tu función para obtener datos
+ *         
+ *         // Calcular momentos
+ *         resultado = pse.compute_rt_momentos(servicio, muestra);
+ *         
+ *         if (resultado == RT_MOMENTOS_KO)
+ *         {
+ *             // Hubo división por cero (normal en las primeras muestras)
+ *         }
+ *         
+ *         // Leer resultados
+ *         printf("Media: %f\n", nsdsp_statistical_objects[servicio].media);
+ *         printf("Varianza: %f\n", nsdsp_statistical_objects[servicio].varianza);
+ *         printf("Asimetría: %f\n", nsdsp_statistical_objects[servicio].asimetria);
+ *         printf("Curtosis: %f\n", nsdsp_statistical_objects[servicio].curtosis);
+ *     }
+ * \endcode
+ *
+ * \subsection paso5 Paso 5: Liberar recursos
+ * \code
+ *     // Liberar el servicio cuando no se necesite más
+ *     pse.unsuscribe_rt_momentos(servicio);
+ *     
+ *     return 0;
+ * }
+ * \endcode
+ *
+ * \section ejemplo_completo Ejemplo Completo
+ *
+ * \code
+ * #include "NSDSP.h"
+ * #include <math.h>
+ * 
+ * // Generador de señal senoidal con ruido
+ * float generar_senal(int n)
+ * {
+ *     float senal = sin(2.0f * 3.14159f * n / 100.0f);
+ *     float ruido = ((float)rand() / RAND_MAX - 0.5f) * 0.1f;
+ *     return senal + ruido;
+ * }
+ * 
+ * int main(void)
+ * {
+ *     RT_MOMENTOS_SERVICE srv1, srv2;
+ *     float muestra;
+ *     int i;
+ *     
+ *     // Inicializar librería
+ *     Init_NSDSP();
+ *     
+ *     // Obtener dos servicios para procesar dos señales
+ *     srv1 = pse.suscribe_rt_momentos();
+ *     srv2 = pse.suscribe_rt_momentos();
+ *     
+ *     if (srv1 == NONE || srv2 == NONE)
+ *     {
+ *         printf("Error: No hay suficientes servicios disponibles\n");
+ *         return -1;
+ *     }
+ *     
+ *     // Procesar 1000 muestras
+ *     for (i = 0; i < 1000; i++)
+ *     {
+ *         // Señal 1: Senoidal con ruido
+ *         muestra = generar_senal(i);
+ *         pse.compute_rt_momentos(srv1, muestra);
+ *         
+ *         // Señal 2: Ruido gaussiano
+ *         muestra = ((float)rand() / RAND_MAX - 0.5f) * 2.0f;
+ *         pse.compute_rt_momentos(srv2, muestra);
+ *         
+ *         // Mostrar resultados cada 100 muestras
+ *         if (i % 100 == 99)
+ *         {
+ *             printf("\nMuestra %d:\n", i + 1);
+ *             printf("Señal 1 - Media: %.3f, Var: %.3f, Asim: %.3f, Kurt: %.3f\n",
+ *                    nsdsp_statistical_objects[srv1].media,
+ *                    nsdsp_statistical_objects[srv1].varianza,
+ *                    nsdsp_statistical_objects[srv1].asimetria,
+ *                    nsdsp_statistical_objects[srv1].curtosis);
+ *             printf("Señal 2 - Media: %.3f, Var: %.3f, Asim: %.3f, Kurt: %.3f\n",
+ *                    nsdsp_statistical_objects[srv2].media,
+ *                    nsdsp_statistical_objects[srv2].varianza,
+ *                    nsdsp_statistical_objects[srv2].asimetria,
+ *                    nsdsp_statistical_objects[srv2].curtosis);
+ *         }
+ *     }
+ *     
+ *     // Liberar servicios
+ *     pse.unsuscribe_rt_momentos(srv1);
+ *     pse.unsuscribe_rt_momentos(srv2);
+ *     
+ *     return 0;
+ * }
+ * \endcode
+ *
+ * \section notas Notas Importantes
+ *
+ * - **Primeras N_MA muestras**: Los resultados no son válidos hasta procesar al menos N_MA (64) muestras
+ * - **División por cero**: Es normal que Compute devuelva RT_MOMENTOS_KO en las primeras muestras cuando la varianza es 0
+ * - **Memoria estática**: No se usa malloc/free, toda la memoria está preasignada
+ * - **Thread safety**: La librería NO es thread-safe. Cada thread debe usar servicios diferentes
+ *
+ * \section extension Extensión de la Librería
+ *
+ * Para añadir nuevos recursos a NSDSP:
+ * 1. Crear el módulo siguiendo el patrón Init/Suscribe/Compute/Unsuscribe
+ * 2. Incluir el header del nuevo recurso en NSDSP.h
+ * 3. Llamar a Init_[nuevo_recurso]() desde Init_NSDSP()
+ * 4. Documentar el nuevo recurso en esta página
+ *
+ * \author Dr. Carlos Romero
+ * \version 1.0
+ * \date 12/07/2025
+ * 
+ * \copyright ZGR R&D AIE
+ */

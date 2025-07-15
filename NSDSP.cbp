@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="NSDSP" />
+		<Option platforms="Windows;" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/NSDSP" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DDEBUG" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/NSDSP" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-DNDEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="Artificial Neural Networks/Neural_Network.c">
+			<Option compilerVar="CC" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Artificial Neural Networks/Neural_Trigger.c">
+			<Option compilerVar="CC" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Detection and Estimation/LMS_Filter.c">
+			<Option compilerVar="CC" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Frequency Domain Signal Processing/FFT.c">
+			<Option compilerVar="CC" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Multirate Signal Processing/Bank_Lagrange.c">
+			<Option compilerVar="CC" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Multirate Signal Processing/Wavelet_Db4.c">
+			<Option compilerVar="CC" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Multirate Signal Processing/Wavelet_Db8.c">
+			<Option compilerVar="CC" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="Statistical Signal Processing/RT_Momentos.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Time Domain Signal Processing/Constantinides.c">
+			<Option compilerVar="CC" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="includes/nsdsp.h" />
+		<Unit filename="includes/nsdsp_statistical.h" />
+		<Unit filename="includes/rt_momentos.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Artificial Neural Networks/Neural_Network.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Artificial Neural Networks/Neural_Trigger.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Detection and Estimation/LMS_Filter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Frequency Domain Signal Processing/FFT.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Multirate Signal Processing/Bank_Lagrange.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Multirate Signal Processing/Wavelet_Db4.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Multirate Signal Processing/Wavelet_Db8.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Statistical Signal Processing/rt_momentos.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Time Domain Signal Processing/Constantinides.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/nsdsp.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<DoxyBlocks>
+				<comment_style block="4" line="0" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
