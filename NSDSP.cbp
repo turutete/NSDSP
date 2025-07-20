@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-DDEBUG" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -37,6 +38,10 @@
 		<Unit filename="includes/rt_momentos.h" />
 		<Unit filename="src/Statistical_Signal_Processing/rt_momentos.c">
 			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Unit_Tests/test_rt_momentos.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="src/main.c">
 			<Option compilerVar="CC" />

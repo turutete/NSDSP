@@ -69,8 +69,8 @@
 
 #include "nsdsp.h"
 
-// Vista simplificada de los datos estadísticos
-statistical_object nsdsp_statistical_objects[MAX_RT_MOMENTOS];
+void Init_NSDSP(void);
+
 
 void Init_NSDSP(void)
 {

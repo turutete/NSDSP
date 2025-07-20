@@ -64,6 +64,6 @@ typedef struct
 
 extern SSP pse;                                 // pse es la estructura de métodos de la librería
 extern void Init_RT_Momentos(void);             // Declaración del método de inicialización de la librería
-extern RT_MOMENTOS servicios_rt_momentos[MAX_RT_MOMENTOS];  // Array de servicios para acceso externo
+extern RT_MOMENTOS servicios_rt_momentos[];     // Array de servicios para acceso externo
 
 #endif // RT_MOMENTOS_H_INCLUDED

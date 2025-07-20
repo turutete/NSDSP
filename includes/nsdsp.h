@@ -8,4 +8,9 @@
 // Función de inicialización principal
 extern void Init_NSDSP(void);
 
+#ifdef DEBUG
+// Declaración de funciones de test
+extern int Run_All_RT_Momentos_Tests(void);
+#endif
+
 #endif // NSDSP_H_INCLUDED

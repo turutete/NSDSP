@@ -1,16 +1,17 @@
 # depslib dependency file v1.0
-1752930863 source:c:\workspace\c\windows_app\nsdsp\src\main.c
+1753013411 source:c:\workspace\c\windows_app\nsdsp\src\main.c
 	<stdio.h>
 	<stdlib.h>
+	"nsdsp.h"
 
-1752930863 source:c:\workspace\c\windows_app\nsdsp\src\nsdsp.c
+1753016908 source:c:\workspace\c\windows_app\nsdsp\src\nsdsp.c
 	"nsdsp.h"
 
 1752930863 c:\workspace\c\windows_app\nsdsp\includes\nsdsp.h
 	"rt_momentos.h"
 	"nsdsp_statistical.h"
 
-1752930863 c:\workspace\c\windows_app\nsdsp\includes\rt_momentos.h
+1753015639 c:\workspace\c\windows_app\nsdsp\includes\rt_momentos.h
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
@@ -20,4 +21,14 @@
 1752995999 source:c:\workspace\c\windows_app\nsdsp\src\statistical_signal_processing\rt_momentos.c
 	"nsdsp_statistical.h"
 	"rt_momentos.h"
+
+1753013473 source:c:\workspace\c\windows_app\nsdsp\src\unit_tests\test_rt_momentos.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<assert.h>
+	<time.h>
+	<stdarg.h>
+	"rt_momentos.h"
+	"nsdsp_statistical.h"
 

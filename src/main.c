@@ -1,49 +1,83 @@
-/** \page   page_1   Main.c
+/** \page main.c
+ * \brief Módulo principal de pruebas de la librería NSDSP
  *
+ * Este módulo ejecuta los scripts de prueba de todas las funciones de la librería
+ * NSDSP (Non-Stationary Digital Signal Processing). En modo DEBUG, ejecuta
+ * automáticamente todos los tests unitarios disponibles.
  *
- *  Este módulo principal ejecuta los scripts de prueba de todas las funciones de la librería
- *  NSDSP (Non Stationary Digital Signal Processing)
+ * \section funciones_main Funciones disponibles
  *
+ * \subsection main_func main
+ * Función principal que:
+ * - En modo DEBUG: Ejecuta todos los tests unitarios disponibles
+ * - En modo RELEASE: Muestra mensaje de bienvenida
  *
- * \section submodules Submódulos
+ * \section uso_main Uso del programa
  *
- * - \subpage	page_2
- * - \subpage	page_3
+ * El programa detecta automáticamente el modo de compilación:
+ * - DEBUG: Ejecuta todos los tests unitarios e informa de los resultados
+ * - RELEASE: Ejecuta la aplicación normal sin tests
  *
+ * \section tests_disponibles Tests disponibles
+ * - Test_RT_Momentos: Pruebas del módulo de cálculo de momentos estadísticos
  *
- *  \section module1_changes Historial de Cambios
+ * \author Dr. Carlos Romero
  *
- *  | Fecha | Autores | Versión | Descripción |
- *  |:--: |:--:|:--:|:--:|
- *  | 09/06/2025| Autores |1.0.0.0|Primera edición|
+ * \section historial_main Historial de cambios
+ * | Fecha | Autor | Versión | Descripción |
+ * |:-----:|:-----:|:-------:|:------------|
+ * | 20/07/2025 | Dr. Carlos Romero | 1 | Añadido soporte para tests unitarios |
  *
- * \section	module1_methods	Descripción
- *
- *
- * ***Prototipo:*** int main(int argc, char * argc[])
- * \param[in] 	argc	Número de argumentos de la llamada a la función
- * \param[in]   argc[]  Lista de cadenas alfanuméricas de entradas a la función
- * \return		Retorna un entero: 0: OK -1: KO
- *
- *  Esta es la función principal de la aplicación. Los parámetros de entrada son los nombres
- *  de las funciones de la librería que se quiere verificar:
- *
- *  funcion_1
- *  funcion_2
- *
- * La función ejecuta el script de prueba de cada una de las funciones y retorna por pantalla
- * el resultado SUCCESS o FAULT de cada test, y genera un fichero de texto con el resultado.
- *
- * \copyright  ZIGOR R&D AIE
- *
+ * \copyright ZGR R&D AIE
  */
-
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "nsdsp.h"
 
-int main()
+int main(int argc, char *argv[])
 {
-    printf("Hello world!\n");
-    return 0;
+    int result = 0;
+
+#ifdef DEBUG
+    printf("==============================================\n");
+    printf("   NSDSP - MODO DEBUG - EJECUTANDO TESTS\n");
+    printf("==============================================\n\n");
+
+    // Inicializar la librería NSDSP
+    Init_NSDSP();
+
+    // Ejecutar todos los tests disponibles
+    result = Run_All_RT_Momentos_Tests();
+
+    // Aquí se pueden añadir más tests de otros módulos cuando estén disponibles
+    // result |= Run_All_Other_Module_Tests();
+
+    if (result == 0)
+    {
+        printf("\n==============================================\n");
+        printf("   TODOS LOS TESTS COMPLETADOS CON ÉXITO\n");
+        printf("==============================================\n");
+    }
+    else
+    {
+        printf("\n==============================================\n");
+        printf("   ATENCIÓN: ALGUNOS TESTS FALLARON\n");
+        printf("==============================================\n");
+    }
+
+#else
+    // Código para modo RELEASE
+    printf("NSDSP - Non-Stationary Digital Signal Processing Library\n");
+    printf("Copyright ZGR R&D AIE\n\n");
+
+    // Inicializar la librería
+    Init_NSDSP();
+
+    // Aquí iría el código de la aplicación en modo release
+    printf("Librería inicializada correctamente.\n");
+
+#endif
+
+    return result;
 }
