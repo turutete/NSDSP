@@ -1,21 +1,23 @@
 # depslib dependency file v1.0
-1750506486 source:c:\workspace\c\windows_app\nsdsp\artificial neural networks\neural_network.c
-
-1750506506 source:c:\workspace\c\windows_app\nsdsp\artificial neural networks\neural_trigger.c
-
-1750506524 source:c:\workspace\c\windows_app\nsdsp\detection and estimation\lms_filter.c
-
-1750506546 source:c:\workspace\c\windows_app\nsdsp\frequency domain signal processing\fft.c
-
-1750506425 source:c:\workspace\c\windows_app\nsdsp\main.c
+1752930863 source:c:\workspace\c\windows_app\nsdsp\src\main.c
 	<stdio.h>
 	<stdlib.h>
 
-1750506572 source:c:\workspace\c\windows_app\nsdsp\multirate signal processing\bank_lagrange.c
+1752930863 source:c:\workspace\c\windows_app\nsdsp\src\nsdsp.c
+	"nsdsp.h"
 
-1750506591 source:c:\workspace\c\windows_app\nsdsp\multirate signal processing\wavelet_db4.c
+1752930863 c:\workspace\c\windows_app\nsdsp\includes\nsdsp.h
+	"rt_momentos.h"
+	"nsdsp_statistical.h"
 
-1750506606 source:c:\workspace\c\windows_app\nsdsp\multirate signal processing\wavelet_db8.c
+1752930863 c:\workspace\c\windows_app\nsdsp\includes\rt_momentos.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
 
-1750506657 source:c:\workspace\c\windows_app\nsdsp\time domain signal processing\constantinides.c
+1752996039 c:\workspace\c\windows_app\nsdsp\includes\nsdsp_statistical.h
+
+1752995999 source:c:\workspace\c\windows_app\nsdsp\src\statistical_signal_processing\rt_momentos.c
+	"nsdsp_statistical.h"
+	"rt_momentos.h"
 

@@ -11,39 +11,39 @@
  * digraph G {
  *   rankdir=LR;
  *   node [shape=box, style=rounded];
- *   
+ *
  *   xn [label="x(n)", shape=plaintext];
  *   MA1 [label="MA", style=filled, fillcolor=lightpink];
  *   MA2 [label="MA", style=filled, fillcolor=lightpink];
  *   MA3 [label="MA", style=filled, fillcolor=lightpink];
  *   MA4 [label="MA", style=filled, fillcolor=lightpink];
- *   
+ *
  *   sub [label="-", shape=circle];
  *   pow2 [label="()²", shape=box, style=filled, fillcolor=lightblue];
  *   pow3 [label="()³", shape=box, style=filled, fillcolor=lightgreen];
  *   pow4 [label="()⁴", shape=box, style=filled, fillcolor=lightgreen];
- *   
+ *
  *   div1 [label="÷", shape=box, style=filled, fillcolor=lightyellow];
  *   div2 [label="÷", shape=box, style=filled, fillcolor=lightyellow];
  *   sqrt [label="SQRT", shape=box, style=filled, fillcolor=lightyellow];
- *   
+ *
  *   M1 [label="M1(n)", shape=plaintext];
  *   M2 [label="M2(n)", shape=plaintext];
  *   M3 [label="M3(n)", shape=plaintext];
  *   M4 [label="M4(n)", shape=plaintext];
- *   
+ *
  *   xn -> MA1 -> M1;
  *   xn -> sub;
  *   MA1 -> sub [style=dashed];
- *   
+ *
  *   sub -> pow2 -> MA2 -> M2;
  *   sub -> pow3 -> div1;
  *   sub -> pow4 -> div2;
- *   
+ *
  *   MA2 -> sqrt -> div1;
  *   MA3 -> M3;
  *   div1 -> MA3;
- *   
+ *
  *   MA2 -> div2;
  *   MA4 -> M4;
  *   div2 -> MA4;
@@ -57,7 +57,7 @@
  * - \f$ M_4 = \frac{\frac{1}{N}\sum_{i=0}^{N-1} (x[n-i] - M_1)^4}{M_2^2} \f$
  *
  * \section uso Uso del módulo
- * 
+ *
  * Este módulo proporciona hasta MAX_RT_MOMENTOS servicios concurrentes.
  * Para usar un servicio se debe seguir la secuencia:
  * 1. Inicializar la librería con Init_RT_Momentos()
@@ -103,10 +103,11 @@
  * \copyright ZGR R&D AIE
  */
 
+#include "nsdsp_statistical.h"
 #include "rt_momentos.h"
 
 // Declaración externa para la vista simplificada
-extern statistical_object nsdsp_statistical_objects[MAX_RT_MOMENTOS];
+statistical_object nsdsp_statistical_objects[MAX_RT_MOMENTOS];
 
 // Atributos
 RT_MOMENTOS servicios_rt_momentos[MAX_RT_MOMENTOS] = {0};  // Buffer de objetos RT_MOMENTOS
@@ -144,13 +145,13 @@ RT_MOMENTOS_SERVICE Suscribe_RT_Momentos(void)
         {
             result = service;
             servicios_rt_momentos[service].status = ASIGNED;
-            
+
             // Inicializar los índices de escritura de los buffers
             servicios_rt_momentos[service].z_buffers.mu_z.index_w = 0;
             servicios_rt_momentos[service].z_buffers.sigma2_z.index_w = 0;
             servicios_rt_momentos[service].z_buffers.a_z.index_w = 0;
             servicios_rt_momentos[service].z_buffers.c_z.index_w = 0;
-            
+
             // Inicializar los buffers a cero
             for (int i = 0; i < N_MA; i++)
             {
@@ -159,13 +160,13 @@ RT_MOMENTOS_SERVICE Suscribe_RT_Momentos(void)
                 servicios_rt_momentos[service].z_buffers.a_z.buffer_z[i] = 0.0f;
                 servicios_rt_momentos[service].z_buffers.c_z.buffer_z[i] = 0.0f;
             }
-            
+
             // Inicializar los momentos
             servicios_rt_momentos[service].mu = 0.0f;
             servicios_rt_momentos[service].var2 = 0.0f;
             servicios_rt_momentos[service].A = 0.0f;
             servicios_rt_momentos[service].C = 0.0f;
-            
+
             service++;
             estado = 1;
         }
@@ -194,7 +195,7 @@ int Unsuscribe_RT_Momentos(RT_MOMENTOS_SERVICE id_service)
 
     result = RT_MOMENTOS_KO;
 
-    if (id_service >= 0 && id_service < MAX_RT_MOMENTOS && 
+    if (id_service >= 0 && id_service < MAX_RT_MOMENTOS &&
         servicios_rt_momentos[id_service].status == ASIGNED)
     {
         servicios_rt_momentos[id_service] = (RT_MOMENTOS){0};
@@ -218,40 +219,40 @@ int Compute_RT_Momentos(RT_MOMENTOS_SERVICE id_service, float xn)
 
     result = RT_MOMENTOS_KO;
 
-    if (id_service >= 0 && id_service < MAX_RT_MOMENTOS && 
+    if (id_service >= 0 && id_service < MAX_RT_MOMENTOS &&
         servicios_rt_momentos[id_service].status == ASIGNED)
     {
         result = RT_MOMENTOS_OK;
-        
+
         // M1: Media móvil de x(n)
         mu_out = MA_Filter(&servicios_rt_momentos[id_service].z_buffers.mu_z, xn);
         servicios_rt_momentos[id_service].mu = mu_out;
-        
+
         // Actualizar vista simplificada
         nsdsp_statistical_objects[id_service].media = mu_out;
-        
+
         // Calcular (x(n) - M1)
         diff = xn - mu_out;
-        
+
         // Calcular potencias de la diferencia
         diff2 = diff * diff;
         diff3 = diff2 * diff;
         diff4 = diff2 * diff2;
-        
+
         // M2: Varianza = MA((x(n) - M1)²)
         sigma2_out = MA_Filter(&servicios_rt_momentos[id_service].z_buffers.sigma2_z, diff2);
         servicios_rt_momentos[id_service].var2 = sigma2_out;
-        
+
         // Actualizar vista simplificada
         nsdsp_statistical_objects[id_service].varianza = sigma2_out;
-        
+
         // M3: Asimetría = MA((x(n) - M1)³) / sqrt(M2)³
         // Protección contra división por cero
         if (sigma2_out > 0.0f)
         {
             sqrt_sigma2 = sqrtf(sigma2_out);
             sigma2_cubed = sqrt_sigma2 * sqrt_sigma2 * sqrt_sigma2;
-            
+
             if (sigma2_cubed > 0.0f)
             {
                 asimetria_out = MA_Filter(&servicios_rt_momentos[id_service].z_buffers.a_z, diff3);
@@ -271,7 +272,7 @@ int Compute_RT_Momentos(RT_MOMENTOS_SERVICE id_service, float xn)
             nsdsp_statistical_objects[id_service].asimetria = 0.0f;
             result = RT_MOMENTOS_KO;
         }
-        
+
         // M4: Curtosis = MA((x(n) - M1)⁴) / M2²
         // Protección contra división por cero
         if (sigma2_out > 0.0f)
@@ -297,23 +298,23 @@ float MA_Filter(BUFFER_Z *pz, float xn)
     float suma;
     unsigned int i;
     unsigned int index_w;
-    
+
     // Obtener el índice de escritura actual
     index_w = pz->index_w;
-    
+
     // Escribir el nuevo valor en el buffer circular
     pz->buffer_z[index_w] = xn;
-    
+
     // Calcular la suma de todos los elementos del buffer
     suma = 0.0f;
     for (i = 0; i < N_MA; i++)
     {
         suma += pz->buffer_z[i];
     }
-    
+
     // Actualizar el índice de escritura (buffer circular)
     pz->index_w = (index_w + 1) % N_MA;
-    
+
     // Retornar el promedio
     return (suma * INV_N_MA);
 }

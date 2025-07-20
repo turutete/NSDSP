@@ -11,6 +11,6 @@ typedef struct
 
 // Vista simplificada de los objetos RT_MOMENTOS
 // Permite acceso directo a los valores calculados
-extern statistical_object nsdsp_statistical_objects[MAX_RT_MOMENTOS];
+extern statistical_object nsdsp_statistical_objects[];
 
 #endif // NSDSP_STATISTICAL_H_INCLUDED
