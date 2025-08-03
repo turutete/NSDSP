@@ -1,14 +1,73 @@
-/** \file RT_Momentos.c
+/** \page rt_momentos PROCESAMIENTO ESTADÍSTICO
  * \brief Módulo de cálculo de momentos estadísticos en tiempo real
  *
- * Este módulo calcula en tiempo real los 4 primeros momentos estadísticos:
- * - Media (M1)
- * - Varianza (M2)
- * - Asimetría (M3)
- * - Curtosis (M4)
+ * Este módulo implementa el cálculo en tiempo real de los 4 primeros momentos estadísticos
+ * de una señal utilizando filtros de media móvil (MA) con buffers circulares. Los momentos
+ * calculados son: Media (M1), Varianza (M2), Asimetría (M3) y Curtosis (M4).
+ *
+ * \section uso_rt Uso del módulo
+ *
+ * Para utilizar este módulo:
+ * 1. Inicializar con Init_RT_Momentos() (llamado automáticamente por Init_NSDSP())
+ * 2. Suscribir un servicio: service = pse.suscribe_rt_momentos()
+ * 3. Procesar muestras: pse.compute_rt_momentos(service, muestra)
+ * 4. Leer resultados desde nsdsp_statistical_objects[service]
+ * 5. Liberar servicio: pse.unsuscribe_rt_momentos(service)
+ *
+ * Ejemplo:
+ * \code
+ * RT_MOMENTOS_SERVICE service = pse.suscribe_rt_momentos();
+ * for (int i = 0; i < 1000; i++) {
+ *     float muestra = obtener_muestra();
+ *     pse.compute_rt_momentos(service, muestra);
+ * }
+ * printf("Media: %f\n", nsdsp_statistical_objects[service].media);
+ * pse.unsuscribe_rt_momentos(service);
+ * \endcode
+ *
+ * \section funciones_rt Descripción de funciones
+ *
+ * \subsection init_rt Init_RT_Momentos
+ * Inicializa la estructura de punteros a funciones pse (Public Service Endpoints).
+ * Esta función debe ser llamada antes de usar cualquier servicio del módulo.
+ * Asigna los punteros a las funciones Suscribe, Unsuscribe y Compute.
+ *
+ * \subsection suscribe_rt Suscribe_RT_Momentos
+ * Busca un servicio libre en el array de servicios y lo asigna al usuario.
  *
  * \dot
- * digraph G {
+ * digraph suscribe_state {
+ *   rankdir=LR;
+ *   node [shape=box];
+ *
+ *   START [label="Inicio"];
+ *   SEARCH [label="Buscar servicio\nlibre", style=filled, fillcolor=lightyellow];
+ *   FOUND [label="Servicio\nencontrado", shape=diamond, style=filled, fillcolor=lightblue];
+ *   ASSIGN [label="Marcar ASIGNED\nInicializar buffers", style=filled, fillcolor=lightgreen];
+ *   RETURN_ID [label="Retornar ID"];
+ *   RETURN_NONE [label="Retornar NONE"];
+ *
+ *   START -> SEARCH;
+ *   SEARCH -> FOUND;
+ *   FOUND -> ASSIGN [label="Sí"];
+ *   FOUND -> RETURN_NONE [label="No"];
+ *   ASSIGN -> RETURN_ID;
+ * }
+ * \enddot
+ *
+ * \return Identificador del servicio (0 a MAX_RT_MOMENTOS-1) o NONE si no hay disponibles
+ *
+ * \subsection unsuscribe_rt Unsuscribe_RT_Momentos
+ * Libera un servicio previamente asignado y resetea toda su memoria.
+ * \param id_service Identificador del servicio a liberar
+ * \return RT_MOMENTOS_OK si se liberó correctamente, RT_MOMENTOS_KO si error
+ *
+ * \subsection compute_rt Compute_RT_Momentos
+ * Calcula los 4 momentos estadísticos para una nueva muestra de señal.
+ *
+ * Arquitectura del procesamiento:
+ * \dot
+ * digraph compute_architecture {
  *   rankdir=LR;
  *   node [shape=box, style=rounded];
  *
@@ -51,54 +110,45 @@
  * \enddot
  *
  * Las fórmulas implementadas son:
- * - \f$ M_1 = \frac{1}{N}\sum_{i=0}^{N-1} x[n-i] \f$
- * - \f$ M_2 = \frac{1}{N}\sum_{i=0}^{N-1} (x[n-i] - M_1)^2 \f$
- * - \f$ M_3 = \frac{\frac{1}{N}\sum_{i=0}^{N-1} (x[n-i] - M_1)^3}{\sqrt{M_2}^3} \f$
- * - \f$ M_4 = \frac{\frac{1}{N}\sum_{i=0}^{N-1} (x[n-i] - M_1)^4}{M_2^2} \f$
+ * - Media: \f$ M_1 = \frac{1}{N}\sum_{i=0}^{N-1} x[n-i] \f$
+ * - Varianza: \f$ M_2 = \frac{1}{N}\sum_{i=0}^{N-1} (x[n-i] - M_1)^2 \f$
+ * - Asimetría: \f$ M_3 = \frac{\frac{1}{N}\sum_{i=0}^{N-1} (x[n-i] - M_1)^3}{\sqrt{M_2}^3} \f$
+ * - Curtosis: \f$ M_4 = \frac{\frac{1}{N}\sum_{i=0}^{N-1} (x[n-i] - M_1)^4}{M_2^2} \f$
  *
- * \section uso Uso del módulo
- *
- * Este módulo proporciona hasta MAX_RT_MOMENTOS servicios concurrentes.
- * Para usar un servicio se debe seguir la secuencia:
- * 1. Inicializar la librería con Init_RT_Momentos()
- * 2. Suscribirse a un servicio con Suscribe_RT_Momentos()
- * 3. Procesar muestras con Compute_RT_Momentos()
- * 4. Liberar el servicio con Unsuscribe_RT_Momentos()
- *
- * \section funciones Descripción de funciones
- *
- * \subsection init Init_RT_Momentos
- * Inicializa la estructura de punteros a funciones pse (Public Service Endpoints)
- *
- * \subsection suscribe Suscribe_RT_Momentos
- * Busca un servicio libre, lo marca como asignado e inicializa sus buffers
- * \return Identificador del servicio o NONE si no hay disponibles
- *
- * \subsection unsuscribe Unsuscribe_RT_Momentos
- * Libera un servicio previamente asignado y resetea toda su memoria
- * \param id_service Identificador del servicio a liberar
- * \return RT_MOMENTOS_OK si se liberó correctamente, RT_MOMENTOS_KO si el servicio no existe
- *
- * \subsection compute Compute_RT_Momentos
- * Calcula los 4 momentos estadísticos para una nueva muestra de señal.
- * Implementa protección contra división por cero devolviendo 0 en los momentos afectados.
  * \param id_service Identificador del servicio
  * \param xn Muestra actual de la señal x(n)
- * \return RT_MOMENTOS_OK si el cálculo fue correcto, RT_MOMENTOS_KO si hubo división por cero
+ * \return RT_MOMENTOS_OK si cálculo correcto, RT_MOMENTOS_KO si división por cero
  *
- * \subsection ma_filter MA_Filter
- * Implementa un filtro de media móvil con buffer circular
+ * \subsection ma_filter_rt MA_Filter
+ * Implementa un filtro de media móvil con buffer circular de N_MA muestras.
+ *
+ * \dot
+ * digraph ma_filter {
+ *   rankdir=LR;
+ *   node [shape=box];
+ *
+ *   INPUT [label="x(n)"];
+ *   WRITE [label="Escribir en\nbuffer[index_w]", style=filled, fillcolor=lightblue];
+ *   SUM [label="Sumar todos\nlos elementos", style=filled, fillcolor=lightyellow];
+ *   UPDATE [label="index_w =\n(index_w+1)%N_MA", style=filled, fillcolor=lightgreen];
+ *   OUTPUT [label="suma/N_MA"];
+ *
+ *   INPUT -> WRITE -> SUM -> UPDATE -> OUTPUT;
+ * }
+ * \enddot
+ *
  * \param pz Puntero al buffer circular
  * \param xn Nueva muestra a procesar
  * \return Valor promedio de las últimas N_MA muestras
  *
  * \author Dr. Carlos Romero
  *
- * \section historial Historial de cambios
+ * \section historial_rt Historial de cambios
  * | Fecha | Autor | Versión | Descripción |
  * |:-----:|:-----:|:-------:|:------------|
  * | 22/06/2025 | Dr. Carlos Romero | 1 | Primera edición |
  * | 12/07/2025 | Dr. Carlos Romero | 2 | Implementación completa de los 4 momentos |
+ * | 03/08/2025 | Dr. Carlos Romero | 3 | Actualización documentación Doxygen según estándar |
  *
  * \copyright ZGR R&D AIE
  */
@@ -106,22 +156,21 @@
 #include "nsdsp_statistical.h"
 #include "rt_momentos.h"
 
-// Declaración externa para la vista simplificada
-statistical_object nsdsp_statistical_objects[MAX_RT_MOMENTOS];
-
-// Atributos
-RT_MOMENTOS servicios_rt_momentos[MAX_RT_MOMENTOS] = {0};  // Buffer de objetos RT_MOMENTOS
-
-// Definición de Métodos
+// Declaración de funciones
 void Init_RT_Momentos(void);
 RT_MOMENTOS_SERVICE Suscribe_RT_Momentos(void);
 int Unsuscribe_RT_Momentos(RT_MOMENTOS_SERVICE);
 int Compute_RT_Momentos(RT_MOMENTOS_SERVICE, float);
 float MA_Filter(BUFFER_Z *, float);
 
+// Declaración externa para la vista simplificada
+statistical_object nsdsp_statistical_objects[MAX_RT_MOMENTOS];
+
+// Atributos
+RT_MOMENTOS servicios_rt_momentos[MAX_RT_MOMENTOS] = {0};  // Buffer de objetos RT_MOMENTOS
 SSP pse;
 
-// Métodos
+// Definición de funciones
 
 void Init_RT_Momentos(void)
 {
@@ -211,8 +260,8 @@ int Compute_RT_Momentos(RT_MOMENTOS_SERVICE id_service, float xn)
     float diff;
     float diff2, diff3, diff4;
     float sigma2_out;
-    float asimetria_out;
-    float curtosis_out;
+    float asimetria_input;
+    float curtosis_input;
     float sqrt_sigma2;
     float sigma2_cubed;
     float sigma2_squared;
@@ -246,7 +295,7 @@ int Compute_RT_Momentos(RT_MOMENTOS_SERVICE id_service, float xn)
         // Actualizar vista simplificada
         nsdsp_statistical_objects[id_service].varianza = sigma2_out;
 
-        // M3: Asimetría = MA((x(n) - M1)³) / sqrt(M2)³
+        // M3: Asimetría = MA((x(n) - M1)³ / sqrt(M2)³)
         // Protección contra división por cero
         if (sigma2_out > 0.0f)
         {
@@ -255,8 +304,8 @@ int Compute_RT_Momentos(RT_MOMENTOS_SERVICE id_service, float xn)
 
             if (sigma2_cubed > 0.0f)
             {
-                asimetria_out = MA_Filter(&servicios_rt_momentos[id_service].z_buffers.a_z, diff3);
-                servicios_rt_momentos[id_service].A = asimetria_out / sigma2_cubed;
+                asimetria_input = diff3 / sigma2_cubed;
+                servicios_rt_momentos[id_service].A = MA_Filter(&servicios_rt_momentos[id_service].z_buffers.a_z, asimetria_input);
                 nsdsp_statistical_objects[id_service].asimetria = servicios_rt_momentos[id_service].A;
             }
             else
@@ -273,13 +322,13 @@ int Compute_RT_Momentos(RT_MOMENTOS_SERVICE id_service, float xn)
             result = RT_MOMENTOS_KO;
         }
 
-        // M4: Curtosis = MA((x(n) - M1)⁴) / M2²
+        // M4: Curtosis = MA((x(n) - M1)⁴ / M2²)
         // Protección contra división por cero
         if (sigma2_out > 0.0f)
         {
             sigma2_squared = sigma2_out * sigma2_out;
-            curtosis_out = MA_Filter(&servicios_rt_momentos[id_service].z_buffers.c_z, diff4);
-            servicios_rt_momentos[id_service].C = curtosis_out / sigma2_squared;
+            curtosis_input = diff4 / sigma2_squared;
+            servicios_rt_momentos[id_service].C = MA_Filter(&servicios_rt_momentos[id_service].z_buffers.c_z, curtosis_input);
             nsdsp_statistical_objects[id_service].curtosis = servicios_rt_momentos[id_service].C;
         }
         else

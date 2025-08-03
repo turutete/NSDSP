@@ -1,68 +1,91 @@
-/** \page page1 NSDSP.c
+/** \page nsdsp NSDSP
+ * \brief Módulo principal de la librería NSDSP
  *
- * \brief Implementación principal de la librería NSDSP
+ * Librería de Procesamiento Digital de Señales No Supervisado (Non-Stationary Digital Signal Processing).
+ * Este módulo es el punto de entrada principal que inicializa todos los recursos disponibles
+ * de la librería y proporciona la interfaz unificada para acceder a todos los servicios.
  *
- * Librería de Procesamiento Digital de Señales No Supervisado.
- * Este es el módulo principal que inicializa todos los recursos disponibles.
+ * \section uso_nsdsp Uso del módulo
  *
- * \section arquitectura Arquitectura general
+ * Para utilizar la librería NSDSP:
+ * 1. Incluir el archivo de cabecera NSDSP.h en la aplicación
+ * 2. Llamar a Init_NSDSP() al inicio del programa
+ * 3. Utilizar los recursos disponibles a través de la estructura pse
+ * 4. Acceder a los resultados mediante nsdsp_statistical_objects[]
+ *
+ * Ejemplo de uso:
+ * \code
+ * #include "nsdsp.h"
+ *
+ * int main(void) {
+ *     Init_NSDSP();
+ *     RT_MOMENTOS_SERVICE service = pse.suscribe_rt_momentos();
+ *     // Usar el servicio...
+ *     return 0;
+ * }
+ * \endcode
+ *
+ * \section funciones_nsdsp Descripción de funciones
+ *
+ * \subsection init_nsdsp Init_NSDSP
+ * Función principal de inicialización de la librería. Esta función:
+ * - Llama a Init_RT_Momentos() para inicializar el módulo de cálculo de momentos
+ * - Inicializa el array nsdsp_statistical_objects[] con valores por defecto (0.0f)
+ * - Prepara todos los recursos para su uso
  *
  * \dot
- * digraph NSDSP {
+ * digraph Init_NSDSP_Flow {
  *   rankdir=TB;
  *   node [shape=box, style=filled];
  *
- *   APP [label="Aplicación", fillcolor=lightgreen];
- *   NSDSP [label="NSDSP.h", fillcolor=lightblue];
- *   STAT [label="nsdsp_statistical.h", fillcolor=lightyellow];
- *   RT [label="rt_momentos.h", fillcolor=lightyellow];
+ *   START [label="Init_NSDSP()", fillcolor=lightgreen];
+ *   INIT_RT [label="Init_RT_Momentos()", fillcolor=lightyellow];
+ *   INIT_STAT [label="Inicializar\nnsdsp_statistical_objects[]", fillcolor=lightyellow];
+ *   END [label="Fin", fillcolor=lightgreen];
  *
- *   APP -> NSDSP [label="include"];
- *   NSDSP -> STAT [label="include"];
- *   NSDSP -> RT [label="include"];
+ *   START -> INIT_RT -> INIT_STAT -> END;
  * }
  * \enddot
  *
- * Cada recurso sigue el patrón estándar:
- * - Init_[recurso]() - Inicialización del recurso
- * - Suscribe_[recurso]() - Obtener una instancia del recurso
- * - Compute_[recurso]() - Procesar datos con el recurso
- * - Unsuscribe_[recurso]() - Liberar la instancia del recurso
+ * \section arquitectura_nsdsp Arquitectura del sistema
  *
- * \section recursos Recursos disponibles
- * - RT_Momentos: Cálculo de momentos estadísticos en tiempo real
- *
- * \section uso Uso básico
- * La aplicación debe:
- * 1. Incluir NSDSP.h
- * 2. Llamar a Init_NSDSP() al inicio
- * 3. Usar los recursos según necesite a través de pse
- * 4. Acceder a los resultados a través de nsdsp_statistical_objects[]
- *
- * \section implementacion Detalles de implementación
- *
- * La función Init_NSDSP() realiza:
+ * La librería NSDSP sigue una arquitectura modular:
  *
  * \dot
- * digraph Implementation {
- *   rankdir=LR;
- *   node [shape=box];
+ * digraph NSDSP_Architecture {
+ *   rankdir=TB;
+ *   node [shape=box, style=filled];
  *
- *   INIT [label="Init_NSDSP()", style=filled, fillcolor=lightgreen];
- *   RT_INIT [label="Init_RT_Momentos()", style=filled, fillcolor=lightyellow];
- *   STAT_INIT [label="Inicializar\nnsdsp_statistical_objects[]", style=filled, fillcolor=lightyellow];
+ *   APP [label="Aplicación Usuario", fillcolor=lightgreen];
+ *   NSDSP [label="NSDSP.h/NSDSP.c", fillcolor=lightblue];
+ *   STAT [label="nsdsp_statistical.h", fillcolor=lightyellow];
+ *   RT [label="rt_momentos.h/rt_momentos.c", fillcolor=lightyellow];
  *
- *   INIT -> RT_INIT;
- *   INIT -> STAT_INIT;
+ *   subgraph cluster_lib {
+ *     label="Librería NSDSP";
+ *     style=filled;
+ *     color=lightgrey;
+ *     NSDSP; STAT; RT;
+ *   }
+ *
+ *   APP -> NSDSP [label="include/llamadas"];
+ *   NSDSP -> STAT [label="include"];
+ *   NSDSP -> RT [label="include"];
+ *   RT -> STAT [label="actualiza"];
  * }
  * \enddot
+ *
+ * *** Subpáginas ***
+ *
+ * \subpage rt_momentos
  *
  * \author Dr. Carlos Romero
  *
- * \section historial Historial de cambios
+ * \section historial_nsdsp Historial de cambios
  * | Fecha | Autor | Versión | Descripción |
  * |:-----:|:-----:|:-------:|:------------|
  * | 12/07/2025 | Dr. Carlos Romero | 1 | Primera versión |
+ * | 03/08/2025 | Dr. Carlos Romero | 2 | Actualización documentación Doxygen según estándar |
  *
  * \copyright ZGR R&D AIE
  */
