@@ -15,12 +15,12 @@
  *
  * Para compilar en modo DEBUG:
  * \code
- * gcc -DDEBUG -o test_nsdsp main.c nsdsp.c rt_momentos.c test_rt_momentos.c -lm
+ * gcc -DDEBUG -o test_nsdsp main.c nsdsp.c rt_momentos.c test_rt_momentos.c lagrange_halfband.c test_lagrange_halfband.c wavelet_decim.c test_wavelet_decim.c -lm
  * \endcode
  *
  * Para compilar en modo RELEASE:
  * \code
- * gcc -o nsdsp main.c nsdsp.c rt_momentos.c -lm
+ * gcc -o nsdsp main.c nsdsp.c rt_momentos.c lagrange_halfband.c wavelet_decim.c -lm
  * \endcode
  *
  * \section funciones_main Descripción de funciones
@@ -36,7 +36,9 @@
  *   START [label="main()", fillcolor=lightgreen];
  *   DEBUG_CHECK [label="¿Modo DEBUG?", shape=diamond, fillcolor=lightyellow];
  *   INIT_DEBUG [label="Inicializar NSDSP", fillcolor=lightblue];
- *   RUN_TESTS [label="Run_All_RT_Momentos_Tests()", fillcolor=lightblue];
+ *   RUN_RT_TESTS [label="Run_All_RT_Momentos_Tests()", fillcolor=lightblue];
+ *   RUN_LAG_TESTS [label="Run_All_Lagrange_Tests()", fillcolor=lightblue];
+ *   RUN_WAV_TESTS [label="Run_All_Wavelet_Decim_Tests()", fillcolor=lightblue];
  *   CHECK_RESULT [label="¿Tests OK?", shape=diamond, fillcolor=lightyellow];
  *   SUCCESS_MSG [label="Mostrar éxito", fillcolor=lightgreen];
  *   FAIL_MSG [label="Mostrar fallo", fillcolor=lightcoral];
@@ -47,8 +49,10 @@
  *   START -> DEBUG_CHECK;
  *   DEBUG_CHECK -> INIT_DEBUG [label="Sí"];
  *   DEBUG_CHECK -> INIT_RELEASE [label="No"];
- *   INIT_DEBUG -> RUN_TESTS;
- *   RUN_TESTS -> CHECK_RESULT;
+ *   INIT_DEBUG -> RUN_RT_TESTS;
+ *   RUN_RT_TESTS -> RUN_LAG_TESTS;
+ *   RUN_LAG_TESTS -> RUN_WAV_TESTS;
+ *   RUN_WAV_TESTS -> CHECK_RESULT;
  *   CHECK_RESULT -> SUCCESS_MSG [label="= 0"];
  *   CHECK_RESULT -> FAIL_MSG [label="≠ 0"];
  *   SUCCESS_MSG -> END;
@@ -66,6 +70,15 @@
  *   - Test de inicialización
  *   - Test de suscripción/desuscripción de servicios
  *   - Test de cálculo con señales gaussianas
+ * - Test_Lagrange_Halfband: Suite de pruebas del módulo de filtros de media banda
+ *   - Test de parámetros inválidos
+ *   - Test de diferentes órdenes de filtro
+ *   - Test de simetría de coeficientes
+ * - Test_Wavelet_Decim: Suite de pruebas del módulo de descomposición wavelet
+ *   - Test de inicialización
+ *   - Test de descomposición de un nivel
+ *   - Test de descomposición multinivel
+ *   - Test de filtros Daubechies
  *
  * \author Dr. Carlos Romero
  *
@@ -74,6 +87,9 @@
  * |:-----:|:-----:|:-------:|:------------|
  * | 20/07/2025 | Dr. Carlos Romero | 1 | Añadido soporte para tests unitarios |
  * | 03/08/2025 | Dr. Carlos Romero | 2 | Actualización documentación Doxygen según estándar |
+ * | 04/08/2025 | Dr. Carlos Romero | 3 | Integración de tests de Lagrange Halfband |
+ * | 14/08/2025 | Dr. Carlos Romero | 4 | Integración de tests de Interpolación/Decimación |
+ * | 14/08/2025 | Dr. Carlos Romero | 5 | Cambio a tests de Descomposición Wavelet |
  *
  * \copyright ZGR R&D AIE
  */
@@ -85,20 +101,38 @@
 int main(int argc, char *argv[])
 {
     int result = 0;
+    int test_result;
 
 #ifdef DEBUG
     printf("==============================================\n");
     printf("   NSDSP - MODO DEBUG - EJECUTANDO TESTS\n");
     printf("==============================================\n\n");
 
-    // Inicializar la librería NSDSP
+    /* Inicializar la librería NSDSP */
     Init_NSDSP();
 
-    // Ejecutar todos los tests disponibles
-    result = Run_All_RT_Momentos_Tests();
+    /* Ejecutar tests de RT_Momentos */
+    test_result = Run_All_RT_Momentos_Tests();
+    if (test_result != 0)
+    {
+        result = -1;
+    }
 
-    // Aquí se pueden añadir más tests de otros módulos cuando estén disponibles
-    // result |= Run_All_Other_Module_Tests();
+    /* Ejecutar tests de Lagrange Halfband */
+    test_result = Run_All_Lagrange_Tests();
+    if (test_result != 0)
+    {
+        result = -1;
+    }
+
+    /* Ejecutar tests de Descomposición Wavelet */
+    test_result = Run_All_Wavelet_Decim_Tests();
+    if (test_result != 0)
+    {
+        result = -1;
+    }
+
+    /* Aquí se pueden añadir más tests de otros módulos cuando estén disponibles */
 
     if (result == 0)
     {
@@ -114,15 +148,19 @@ int main(int argc, char *argv[])
     }
 
 #else
-    // Código para modo RELEASE
+    /* Código para modo RELEASE */
     printf("NSDSP - Non-Stationary Digital Signal Processing Library\n");
     printf("Copyright ZGR R&D AIE\n\n");
 
-    // Inicializar la librería
+    /* Inicializar la librería */
     Init_NSDSP();
 
-    // Aquí iría el código de la aplicación en modo release
+    /* Aquí iría el código de la aplicación en modo release */
     printf("Librería inicializada correctamente.\n");
+    printf("Módulos disponibles:\n");
+    printf("  - RT_Momentos: Cálculo de momentos estadísticos en tiempo real\n");
+    printf("  - Lagrange Halfband: Filtros de media banda de Lagrange\n");
+    printf("  - Wavelet_Decim: Descomposición wavelet multinivel\n");
 
 #endif
 
