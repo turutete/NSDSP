@@ -31,18 +31,23 @@
  *     STAT [label="nsdsp_statistical.h", fillcolor=lightyellow];
  *     
  *     subgraph cluster_resources {
- *       label="Recursos";
+ *       label="Recursos Disponibles";
  *       RT [label="RT_Momentos", fillcolor=lightcoral];
- *       // Futuros recursos
- *       FUTURE [label="Futuros\nRecursos", fillcolor=lightgray, style=dashed];
+ *       DWT [label="DWT Transform", fillcolor=lightpink];
+ *       FIR [label="FIR Filter", fillcolor=lightcyan];
+ *       LAG [label="Lagrange Halfband", fillcolor=lightgray];
  *     }
  *   }
  *   
  *   APP -> NSDSP [label="include"];
  *   NSDSP -> STAT;
  *   NSDSP -> RT;
- *   NSDSP -> FUTURE [style=dashed];
+ *   NSDSP -> DWT;
+ *   NSDSP -> FIR;
+ *   NSDSP -> LAG;
  *   STAT -> RT [label="vista de datos", style=dashed];
+ *   DWT -> FIR [label="usa"];
+ *   DWT -> LAG [label="usa"];
  * }
  * \enddot
  *
@@ -58,23 +63,49 @@
  *
  * **Características:**
  * - Hasta 4 instancias concurrentes (MAX_RT_MOMENTOS)
- * - Ventana de muestras seleccionable mediante el párametro (N_MA)
+ * - Ventana de muestras configurable (N_MA = 64)
  * - Procesamiento muestra a muestra en tiempo real
  * - Protección contra división por cero
  *
+ * \subsection dwt_transform DWT - Transformada Wavelet Discreta
+ * 
+ * Implementa la descomposición wavelet mediante el algoritmo de Mallat:
+ * - **Niveles configurables**: WAVELET_LEVELS (por defecto 2)
+ * - **Tipos de filtro**: Lagrange, Daubechies 4, Daubechies 8
+ * - **Salidas**: Coeficientes de aproximación y detalle por nivel
+ * - **Múltiples objetos**: Tantos como memoria disponible
+ *
+ * \subsection fir_filter FIR Filter - Filtrado FIR de Propósito General
+ * 
+ * Módulo general de filtrado FIR con buffer circular:
+ * - **Longitud configurable**: Hasta MAX_FIR_LENGTH coeficientes
+ * - **Buffer circular eficiente**: Optimizado para tiempo real
+ * - **Múltiples instancias**: Tantas como memoria disponible
+ * - **Coeficientes definidos por usuario**: Máxima flexibilidad
+ *
+ * \subsection lagrange_halfband Lagrange Halfband - Filtros de Media Banda
+ * 
+ * Genera coeficientes para filtros de media banda de Lagrange:
+ * - **Parámetro M configurable**: Controla el orden del filtro (4M-2)
+ * - **Eficiencia computacional**: Mitad de coeficientes son cero
+ * - **Uso en DWT**: Integrado con la transformada wavelet
+ * - **Generación automática**: Coeficientes calculados matemáticamente
+ *
  * \section patron Patrón de Uso de Recursos
  *
- * Todos los recursos de NSDSP siguen el mismo patrón de uso:
+ * Los recursos de NSDSP siguen diferentes patrones según su tipo:
+ *
+ * \subsection patron_servicios Patrón de Servicios (RT_Momentos)
  *
  * \dot
- * digraph usage {
+ * digraph usage_services {
  *   rankdir=LR;
  *   node [shape=box, style=rounded];
  *   
- *   INIT [label="Init_[recurso]()", style=filled, fillcolor=lightgreen];
- *   SUB [label="Suscribe_[recurso]()", style=filled, fillcolor=lightyellow];
- *   COMP [label="Compute_[recurso]()", style=filled, fillcolor=lightblue];
- *   UNSUB [label="Unsuscribe_[recurso]()", style=filled, fillcolor=lightcoral];
+ *   INIT [label="Init_RT_Momentos()", style=filled, fillcolor=lightgreen];
+ *   SUB [label="pse.suscribe_rt_momentos()", style=filled, fillcolor=lightyellow];
+ *   COMP [label="pse.compute_rt_momentos()", style=filled, fillcolor=lightblue];
+ *   UNSUB [label="pse.unsuscribe_rt_momentos()", style=filled, fillcolor=lightcoral];
  *   
  *   INIT -> SUB [label="1"];
  *   SUB -> COMP [label="2"];
@@ -83,26 +114,58 @@
  * }
  * \enddot
  *
+ * \subsection patron_objetos Patrón de Objetos (DWT, FIR)
+ *
+ * \dot
+ * digraph usage_objects {
+ *   rankdir=LR;
+ *   node [shape=box, style=rounded];
+ *   
+ *   INIT_API [label="Init_[Module]()", style=filled, fillcolor=lightgreen];
+ *   CREATE [label="[module]_api.get_[object]()", style=filled, fillcolor=lightyellow];
+ *   USE [label="[module]_api.[function]()", style=filled, fillcolor=lightblue];
+ *   
+ *   INIT_API -> CREATE [label="1"];
+ *   CREATE -> USE [label="2"];
+ *   USE -> USE [label="3\nrepetir"];
+ * }
+ * \enddot
+ *
+ * \subsection patron_utilitarios Patrón de Utilitarios (Lagrange)
+ *
+ * \dot
+ * digraph usage_utilities {
+ *   rankdir=LR;
+ *   node [shape=box, style=rounded];
+ *   
+ *   CALL [label="lagrange_halfband(m, h0)", style=filled, fillcolor=lightblue];
+ *   USE [label="Usar coeficientes", style=filled, fillcolor=lightgreen];
+ *   
+ *   CALL -> USE [label="directo"];
+ * }
+ * \enddot
+ *
  * \section dependencias Dependencias
  *
  * **Librerías estándar requeridas:**
  * - stdio.h (para definiciones básicas)
  * - stdlib.h (para tipos estándar)
- * - math.h (para funciones matemáticas: sqrt)
+ * - math.h (para funciones matemáticas: sqrt, sin, cos, log)
  *
  * **Requisitos del compilador:**
- * - Soporte para C99 o superior
- * - Soporte para punto flotante
+ * - Soporte para C89/C90 o superior
+ * - Soporte para punto flotante (float)
  *
- * **Requisitos de memoria:**
- * - Toda la memoria es estática
- * - RT_Momentos: aproximadamente 4KB (4 servicios × 4 buffers × 64 muestras × 4 bytes)
+ * **Requisitos de memoria (estimados):**
+ * - RT_Momentos: ~4KB (4 servicios × 4 buffers × 64 muestras × 4 bytes)
+ * - DWT: Variable según BUFFER_SIZE y WAVELET_LEVELS
+ * - FIR: Variable según número de coeficientes por filtro
  *
  * \section uso Como Usar la Librería
  *
  * \subsection paso1 Paso 1: Incluir el archivo principal
  * \code
- * #include "NSDSP.h"
+ * #include "nsdsp.h"
  * \endcode
  *
  * \subsection paso2 Paso 2: Inicializar la librería
@@ -113,7 +176,7 @@
  *     Init_NSDSP();
  * \endcode
  *
- * \subsection paso3 Paso 3: Obtener un servicio
+ * \subsection paso3_momentos Paso 3a: Usar RT_Momentos (Patrón de Servicios)
  * \code
  *     // Suscribirse a un servicio de momentos
  *     RT_MOMENTOS_SERVICE servicio;
@@ -124,14 +187,11 @@
  *         // No hay servicios disponibles
  *         return -1;
  *     }
- * \endcode
- *
- * \subsection paso4 Paso 4: Procesar señales
- * \code
+ *     
+ *     // Procesar muestras de señal
  *     float muestra;
  *     int resultado;
  *     
- *     // Procesar muestras de señal
  *     while (/* condición de procesamiento */)
  *     {
  *         muestra = obtener_muestra();  // Tu función para obtener datos
@@ -139,24 +199,58 @@
  *         // Calcular momentos
  *         resultado = pse.compute_rt_momentos(servicio, muestra);
  *         
- *         if (resultado == RT_MOMENTOS_KO)
- *         {
- *             // Hubo división por cero (normal en las primeras muestras)
- *         }
- *         
- *         // Leer resultados
+ *         // Leer resultados desde nsdsp_statistical_objects[]
  *         printf("Media: %f\n", nsdsp_statistical_objects[servicio].media);
  *         printf("Varianza: %f\n", nsdsp_statistical_objects[servicio].varianza);
  *         printf("Asimetría: %f\n", nsdsp_statistical_objects[servicio].asimetria);
  *         printf("Curtosis: %f\n", nsdsp_statistical_objects[servicio].curtosis);
  *     }
+ *     
+ *     // Liberar el servicio
+ *     pse.unsuscribe_rt_momentos(servicio);
  * \endcode
  *
- * \subsection paso5 Paso 5: Liberar recursos
+ * \subsection paso3_dwt Paso 3b: Usar DWT (Patrón de Objetos)
  * \code
- *     // Liberar el servicio cuando no se necesite más
- *     pse.unsuscribe_rt_momentos(servicio);
+ *     // Crear objeto DWT
+ *     DWT_OBJECT dwt_obj;
+ *     dwt_api.get_dwt(&dwt_obj);
  *     
+ *     // Procesar muestras
+ *     for (int i = 0; i < 1000; i++)
+ *     {
+ *         float muestra = obtener_muestra();
+ *         dwt_api.dwt(muestra, &dwt_obj);
+ *         
+ *         // Leer salidas
+ *         printf("Aproximación: %f\n", dwt_obj.yout[WAVELET_LEVELS]);
+ *         for (int j = 0; j < WAVELET_LEVELS; j++)
+ *         {
+ *             printf("Detalle[%d]: %f\n", j, dwt_obj.yout[j]);
+ *         }
+ *     }
+ * \endcode
+ *
+ * \subsection paso3_fir Paso 3c: Usar FIR Filter (Patrón de Objetos)
+ * \code
+ *     // Definir coeficientes del filtro
+ *     float coefs[5] = {0.2f, 0.2f, 0.2f, 0.2f, 0.2f}; // Filtro promediador
+ *     float z_buffer[5];
+ *     
+ *     // Crear objeto FIR
+ *     FIR_FILTER_OBJECT filtro = fir_api.get_fir(5, coefs, z_buffer);
+ *     
+ *     // Procesar muestras
+ *     for (int i = 0; i < 1000; i++)
+ *     {
+ *         float muestra = obtener_muestra();
+ *         float salida = fir_api.fir_filter(muestra, &filtro);
+ *         procesar_salida(salida);
+ *     }
+ * \endcode
+ *
+ * \subsection paso4 Paso 4: Finalizar
+ * \code
  *     return 0;
  * }
  * \endcode
@@ -164,7 +258,7 @@
  * \section ejemplo_completo Ejemplo Completo
  *
  * \code
- * #include "NSDSP.h"
+ * #include "nsdsp.h"
  * #include <math.h>
  * 
  * // Generador de señal senoidal con ruido
@@ -177,77 +271,144 @@
  * 
  * int main(void)
  * {
- *     RT_MOMENTOS_SERVICE srv1, srv2;
- *     float muestra;
+ *     RT_MOMENTOS_SERVICE srv_momentos;
+ *     DWT_OBJECT dwt_obj;
+ *     FIR_FILTER_OBJECT filtro;
+ *     float coefs[5] = {0.2f, 0.2f, 0.2f, 0.2f, 0.2f};
+ *     float z_buffer[5];
+ *     float muestra, salida_fir;
  *     int i;
  *     
- *     // Inicializar librería
+ *     // Inicializar librería completa
  *     Init_NSDSP();
  *     
- *     // Obtener dos servicios para procesar dos señales
- *     srv1 = pse.suscribe_rt_momentos();
- *     srv2 = pse.suscribe_rt_momentos();
+ *     // Configurar todos los recursos
+ *     srv_momentos = pse.suscribe_rt_momentos();
+ *     dwt_api.get_dwt(&dwt_obj);
+ *     filtro = fir_api.get_fir(5, coefs, z_buffer);
  *     
- *     if (srv1 == NONE || srv2 == NONE)
+ *     if (srv_momentos == NONE)
  *     {
- *         printf("Error: No hay suficientes servicios disponibles\n");
+ *         printf("Error: No hay servicios de momentos disponibles\n");
  *         return -1;
  *     }
  *     
  *     // Procesar 1000 muestras
  *     for (i = 0; i < 1000; i++)
  *     {
- *         // Señal 1: Senoidal con ruido
+ *         // Generar señal
  *         muestra = generar_senal(i);
- *         pse.compute_rt_momentos(srv1, muestra);
  *         
- *         // Señal 2: Ruido gaussiano
- *         muestra = ((float)rand() / RAND_MAX - 0.5f) * 2.0f;
- *         pse.compute_rt_momentos(srv2, muestra);
+ *         // Procesar con todos los módulos
+ *         pse.compute_rt_momentos(srv_momentos, muestra);
+ *         dwt_api.dwt(muestra, &dwt_obj);
+ *         salida_fir = fir_api.fir_filter(muestra, &filtro);
  *         
- *         // Mostrar resultados cada 100 muestras
- *         if (i % 100 == 99)
+ *         // Mostrar resultados cada 200 muestras
+ *         if (i % 200 == 199)
  *         {
- *             printf("\nMuestra %d:\n", i + 1);
- *             printf("Señal 1 - Media: %.3f, Var: %.3f, Asim: %.3f, Kurt: %.3f\n",
- *                    nsdsp_statistical_objects[srv1].media,
- *                    nsdsp_statistical_objects[srv1].varianza,
- *                    nsdsp_statistical_objects[srv1].asimetria,
- *                    nsdsp_statistical_objects[srv1].curtosis);
- *             printf("Señal 2 - Media: %.3f, Var: %.3f, Asim: %.3f, Kurt: %.3f\n",
- *                    nsdsp_statistical_objects[srv2].media,
- *                    nsdsp_statistical_objects[srv2].varianza,
- *                    nsdsp_statistical_objects[srv2].asimetria,
- *                    nsdsp_statistical_objects[srv2].curtosis);
+ *             printf("\n=== Muestra %d ===\n", i + 1);
+ *             
+ *             // Momentos estadísticos
+ *             printf("Momentos - Media: %.3f, Var: %.3f\n",
+ *                    nsdsp_statistical_objects[srv_momentos].media,
+ *                    nsdsp_statistical_objects[srv_momentos].varianza);
+ *             
+ *             // Wavelet
+ *             printf("DWT - Aprox: %.3f, Det[0]: %.3f, Det[1]: %.3f\n",
+ *                    dwt_obj.yout[WAVELET_LEVELS],
+ *                    dwt_obj.yout[0], dwt_obj.yout[1]);
+ *             
+ *             // FIR
+ *             printf("FIR - Salida filtrada: %.3f\n", salida_fir);
  *         }
  *     }
  *     
- *     // Liberar servicios
- *     pse.unsuscribe_rt_momentos(srv1);
- *     pse.unsuscribe_rt_momentos(srv2);
+ *     // Liberar recursos
+ *     pse.unsuscribe_rt_momentos(srv_momentos);
  *     
  *     return 0;
  * }
  * \endcode
  *
+ * \section configuracion Configuración Avanzada
+ *
+ * \subsection config_rt_momentos Configuración RT_Momentos
+ * En rt_momentos.h:
+ * \code
+ * #define MAX_RT_MOMENTOS 4    // Máximo número de servicios concurrentes
+ * #define N_MA            64   // Ventana de la media móvil
+ * \endcode
+ *
+ * \subsection config_dwt Configuración DWT
+ * En dwt.h:
+ * \code
+ * #define LAGRANGE_M      3     // Parámetro M para filtros Lagrange
+ * #define WAVELET_LEVELS  2     // Número de niveles de descomposición
+ * 
+ * // Seleccionar tipo de wavelet (solo uno activo):
+ * #define LAGRANGE              // Filtros Lagrange halfband
+ * //#define DB4                 // Daubechies 4
+ * //#define DB8                 // Daubechies 8
+ * \endcode
+ *
+ * \subsection config_fir Configuración FIR Filter
+ * En fir_filter.h:
+ * \code
+ * #define MAX_FIR_LENGTH  128   // Longitud máxima de filtro FIR
+ * \endcode
+ *
  * \section notas Notas Importantes
  *
- * - **Primeras N_MA muestras**: Los resultados no son válidos hasta procesar al menos N_MA (64) muestras
- * - **División por cero**: Es normal que Compute devuelva RT_MOMENTOS_KO en las primeras muestras cuando la varianza es 0
+ * - **Primeras N_MA muestras**: Los resultados de RT_Momentos no son válidos hasta procesar al menos N_MA (64) muestras
+ * - **División por cero**: Es normal que compute_rt_momentos() retorne RT_MOMENTOS_KO en las primeras muestras cuando la varianza es 0
  * - **Memoria estática**: No se usa malloc/free, toda la memoria está preasignada
- * - **Thread safety**: La librería NO es thread-safe. Cada thread debe usar servicios diferentes
+ * - **Thread safety**: La librería NO es thread-safe. Cada thread debe usar servicios/objetos diferentes
+ * - **Orden de inicialización**: Init_NSDSP() debe llamarse antes que cualquier API específica
+ * - **Objetos DWT/FIR**: No requieren liberación explícita, son automáticos
+ *
+ * \section compilacion Compilación
+ *
+ * \subsection debug Modo Debug
+ * \code
+ * gcc -DDEBUG -o test_nsdsp *.c -lm
+ * \endcode
+ * En modo DEBUG se incluyen todos los tests unitarios.
+ *
+ * \subsection release Modo Release
+ * \code
+ * gcc -o nsdsp_app *.c -lm
+ * \endcode
+ * En modo Release solo se compila el código de producción.
  *
  * \section extension Extensión de la Librería
  *
  * Para añadir nuevos recursos a NSDSP:
- * 1. Crear el módulo siguiendo el patrón Init/Suscribe/Compute/Unsuscribe
- * 2. Incluir el header del nuevo recurso en NSDSP.h
+ * 1. Crear el módulo siguiendo uno de los patrones existentes
+ * 2. Añadir el header del nuevo recurso en nsdsp.h
  * 3. Llamar a Init_[nuevo_recurso]() desde Init_NSDSP()
- * 4. Documentar el nuevo recurso en esta página
+ * 4. Crear tests unitarios en test_[nuevo_recurso].c
+ * 5. Documentar el nuevo recurso en esta página
+ *
+ * \section testing Tests Unitarios
+ *
+ * La librería incluye tests unitarios completos:
+ * - test_rt_momentos.c: Tests para cálculo de momentos
+ * - test_dwt.c: Tests para transformada wavelet
+ * - test_fir_filter.c: Tests para filtros FIR
+ * - test_lagrange_halfband.c: Tests para filtros Lagrange
+ *
+ * Los tests se ejecutan automáticamente en modo DEBUG y generan archivos de log con resultados detallados.
  *
  * \author Dr. Carlos Romero
- * \version 1.0
- * \date 12/07/2025
+ * \version 2.0
+ * \date 30/08/2025
+ * 
+ * \section historial_mainpage Historial de cambios
+ * | Fecha | Autor | Versión | Descripción |
+ * |:-----:|:-----:|:-------:|:------------|
+ * | 12/07/2025 | Dr. Carlos Romero | 1.0 | Primera versión |
+ * | 30/08/2025 | Dr. Carlos Romero | 2.0 | Actualización completa con DWT, FIR y Lagrange |
  * 
  * \copyright ZGR R&D AIE
  */
