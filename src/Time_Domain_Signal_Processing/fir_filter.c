@@ -225,8 +225,11 @@
      float * pw;
 
      pw=pz;
-     for (index=0;index<ncoef;index++)
-        *(pw++)=0;
+     if (pw!=NULL)
+     {
+         for (index=0;index<ncoef;index++)
+            *(pw++)=0;
+     }
      objeto.ncoef=ncoef;
      objeto.pcoef=pcoef;
      objeto.pz=pz;
