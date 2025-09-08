@@ -1,0 +1,306 @@
+
+
+########################################
+# Lagrange Halfband Unit Tests
+# Fecha y hora: 2025-09-07 14:11:52
+########################################
+
+========================================
+    EJECUTANDO TESTS LAGRANGE HALFBAND
+========================================
+
+=== Test Lagrange Halfband ===
+
+Test 1: Parámetros inválidos
+
+Test 2: Filtro m=1 (orden 2)
+Coeficientes para m=1: 0.250000 0.500000 0.250000 
+
+Test 3: Filtro m=2 (orden 6)
+Coeficientes para m=2: -0.031250 0.000000 0.281250 0.500000 0.281250 0.000000 -0.031250 
+
+Test 4: Verificar estructura de media banda para m=3
+Coeficientes para m=3: 0.005859 0.000000 -0.048828 0.000000 0.292969 0.500000 0.292969 0.000000 -0.048828 0.000000 0.005859 
+
+Test Lagrange Halfband: PASSED
+
+========================================
+TODOS LOS TESTS LAGRANGE PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# Lagrange Halfband Unit Tests
+# Fecha y hora: 2025-09-07 14:20:04
+########################################
+
+========================================
+    EJECUTANDO TESTS LAGRANGE HALFBAND
+========================================
+
+=== Test Lagrange Halfband ===
+
+Test 1: Parámetros inválidos
+
+Test 2: Filtro m=1 (orden 2)
+Coeficientes para m=1: 0.250000 0.500000 0.250000 
+
+Test 3: Filtro m=2 (orden 6)
+Coeficientes para m=2: -0.031250 0.000000 0.281250 0.500000 0.281250 0.000000 -0.031250 
+
+Test 4: Verificar estructura de media banda para m=3
+Coeficientes para m=3: 0.005859 0.000000 -0.048828 0.000000 0.292969 0.500000 0.292969 0.000000 -0.048828 0.000000 0.005859 
+
+Test Lagrange Halfband: PASSED
+
+========================================
+TODOS LOS TESTS LAGRANGE PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# Lagrange Halfband Unit Tests
+# Fecha y hora: 2025-09-07 14:43:37
+########################################
+
+========================================
+    EJECUTANDO TESTS LAGRANGE HALFBAND
+========================================
+
+=== Test Lagrange Halfband ===
+
+Test 1: Parámetros inválidos
+
+Test 2: Filtro m=1 (orden 2)
+Coeficientes para m=1: 0.250000 0.500000 0.250000 
+
+Test 3: Filtro m=2 (orden 6)
+Coeficientes para m=2: -0.031250 0.000000 0.281250 0.500000 0.281250 0.000000 -0.031250 
+
+Test 4: Verificar estructura de media banda para m=3
+Coeficientes para m=3: 0.005859 0.000000 -0.048828 0.000000 0.292969 0.500000 0.292969 0.000000 -0.048828 0.000000 0.005859 
+
+Test Lagrange Halfband: PASSED
+
+========================================
+TODOS LOS TESTS LAGRANGE PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# Lagrange Halfband Unit Tests
+# Fecha y hora: 2025-09-07 14:55:52
+########################################
+
+========================================
+    EJECUTANDO TESTS LAGRANGE HALFBAND
+========================================
+
+=== Test Lagrange Halfband ===
+
+Test 1: Parámetros inválidos
+
+Test 2: Filtro m=1 (orden 2)
+Coeficientes para m=1: 0.250000 0.500000 0.250000 
+
+Test 3: Filtro m=2 (orden 6)
+Coeficientes para m=2: -0.031250 0.000000 0.281250 0.500000 0.281250 0.000000 -0.031250 
+
+Test 4: Verificar estructura de media banda para m=3
+Coeficientes para m=3: 0.005859 0.000000 -0.048828 0.000000 0.292969 0.500000 0.292969 0.000000 -0.048828 0.000000 0.005859 
+
+Test Lagrange Halfband: PASSED
+
+========================================
+TODOS LOS TESTS LAGRANGE PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# Lagrange Halfband Unit Tests
+# Fecha y hora: 2025-09-08 07:08:32
+########################################
+
+========================================
+    EJECUTANDO TESTS LAGRANGE HALFBAND
+========================================
+
+=== Test Lagrange Halfband ===
+
+Test 1: Parámetros inválidos
+
+Test 2: Filtro m=1 (orden 2)
+Coeficientes para m=1: 0.250000 0.500000 0.250000 
+
+Test 3: Filtro m=2 (orden 6)
+Coeficientes para m=2: -0.031250 0.000000 0.281250 0.500000 0.281250 0.000000 -0.031250 
+
+Test 4: Verificar estructura de media banda para m=3
+Coeficientes para m=3: 0.005859 0.000000 -0.048828 0.000000 0.292969 0.500000 0.292969 0.000000 -0.048828 0.000000 0.005859 
+
+Test Lagrange Halfband: PASSED
+
+========================================
+TODOS LOS TESTS LAGRANGE PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# Lagrange Halfband Unit Tests
+# Fecha y hora: 2025-09-08 20:57:22
+########################################
+
+========================================
+    EJECUTANDO TESTS LAGRANGE HALFBAND
+========================================
+
+=== Test Lagrange Halfband ===
+
+Test 1: Parámetros inválidos
+
+Test 2: Filtro m=1 (orden 2)
+Coeficientes para m=1: 0.250000 0.500000 0.250000 
+
+Test 3: Filtro m=2 (orden 6)
+Coeficientes para m=2: -0.031250 0.000000 0.281250 0.500000 0.281250 0.000000 -0.031250 
+
+Test 4: Verificar estructura de media banda para m=3
+Coeficientes para m=3: 0.005859 0.000000 -0.048828 0.000000 0.292969 0.500000 0.292969 0.000000 -0.048828 0.000000 0.005859 
+
+Test Lagrange Halfband: PASSED
+
+========================================
+TODOS LOS TESTS LAGRANGE PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# Lagrange Halfband Unit Tests
+# Fecha y hora: 2025-09-08 21:26:42
+########################################
+
+========================================
+    EJECUTANDO TESTS LAGRANGE HALFBAND
+========================================
+
+=== Test Lagrange Halfband ===
+
+Test 1: Parámetros inválidos
+
+Test 2: Filtro m=1 (orden 2)
+Coeficientes para m=1: 0.250000 0.500000 0.250000 
+
+Test 3: Filtro m=2 (orden 6)
+Coeficientes para m=2: -0.031250 0.000000 0.281250 0.500000 0.281250 0.000000 -0.031250 
+
+Test 4: Verificar estructura de media banda para m=3
+Coeficientes para m=3: 0.005859 0.000000 -0.048828 0.000000 0.292969 0.500000 0.292969 0.000000 -0.048828 0.000000 0.005859 
+
+Test Lagrange Halfband: PASSED
+
+========================================
+TODOS LOS TESTS LAGRANGE PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# Lagrange Halfband Unit Tests
+# Fecha y hora: 2025-09-08 21:35:21
+########################################
+
+========================================
+    EJECUTANDO TESTS LAGRANGE HALFBAND
+========================================
+
+=== Test Lagrange Halfband ===
+
+Test 1: Parámetros inválidos
+
+Test 2: Filtro m=1 (orden 2)
+Coeficientes para m=1: 0.250000 0.500000 0.250000 
+
+Test 3: Filtro m=2 (orden 6)
+Coeficientes para m=2: -0.031250 0.000000 0.281250 0.500000 0.281250 0.000000 -0.031250 
+
+Test 4: Verificar estructura de media banda para m=3
+Coeficientes para m=3: 0.005859 0.000000 -0.048828 0.000000 0.292969 0.500000 0.292969 0.000000 -0.048828 0.000000 0.005859 
+
+Test Lagrange Halfband: PASSED
+
+========================================
+TODOS LOS TESTS LAGRANGE PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# Lagrange Halfband Unit Tests
+# Fecha y hora: 2025-09-08 21:36:55
+########################################
+
+========================================
+    EJECUTANDO TESTS LAGRANGE HALFBAND
+========================================
+
+=== Test Lagrange Halfband ===
+
+Test 1: Parámetros inválidos
+
+Test 2: Filtro m=1 (orden 2)
+Coeficientes para m=1: 0.250000 0.500000 0.250000 
+
+Test 3: Filtro m=2 (orden 6)
+Coeficientes para m=2: -0.031250 0.000000 0.281250 0.500000 0.281250 0.000000 -0.031250 
+
+Test 4: Verificar estructura de media banda para m=3
+Coeficientes para m=3: 0.005859 0.000000 -0.048828 0.000000 0.292969 0.500000 0.292969 0.000000 -0.048828 0.000000 0.005859 
+
+Test Lagrange Halfband: PASSED
+
+========================================
+TODOS LOS TESTS LAGRANGE PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+

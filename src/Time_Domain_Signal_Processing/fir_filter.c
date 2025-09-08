@@ -201,6 +201,7 @@
  */
 
  #include "fir_filter.h"
+ #include <stdio.h>
 
  /* Declaración de funciones */
  void Init_Fir(void);
@@ -241,6 +242,7 @@
  {
      unsigned int index, N;
      float * pmax;
+     float * pmin;
      float * pinit;
      float y;
      float * pcoef_temp;
@@ -257,26 +259,27 @@
          return 0.0f;
      }
 
+     pmin=pfir->pz;
      pmax=(pfir->pz)+(pfir->ncoef);
      pinit=pfir->p_write;
      *(pfir->p_write++)=xn;
+
      if (pfir->p_write==pmax)
      {
          pfir->p_write=pfir->pz;
      }
-     if (pinit==pmax)
-     {
-         pinit=pfir->pz;
-     }
+
 
     pcoef_temp=pfir->pcoef;
 
      for (index=0;index<N;index++)
      {
-         y+=*(pcoef_temp++)**(pinit++);
-         if (pinit==pmax)
+         y+=(*(pcoef_temp++))*(*(pinit--));
+
+         if (pinit<pmin)
          {
-             pinit=pfir->pz;
+             pinit=pmax;
+             pinit--;
          }
      }
      return y;

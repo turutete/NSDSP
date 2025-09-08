@@ -1,0 +1,315 @@
+
+
+########################################
+# FIR Filter Unit Tests
+# Fecha y hora: 2025-09-07 14:11:52
+########################################
+
+========================================
+    EJECUTANDO TESTS FIR FILTER
+========================================
+
+=== Test FIR Initialization ===
+
+Test 1: Crear filtro promediador (5 coeficientes)
+Test FIR Initialization: PASSED
+
+=== Test FIR Error Handling ===
+
+Test 1: Puntero NULL al filtro
+OK: Retornó 0.0 con puntero NULL
+
+Test 2: Filtro con demasiados coeficientes
+OK: Detectó filtro con demasiados coeficientes
+
+Test 3: Get_Fir con punteros NULL
+Test FIR Error Handling: PASSED
+
+========================================
+TODOS LOS TESTS FIR FILTER PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# FIR Filter Unit Tests
+# Fecha y hora: 2025-09-07 14:20:04
+########################################
+
+========================================
+    EJECUTANDO TESTS FIR FILTER
+========================================
+
+=== Test FIR Initialization ===
+
+Test 1: Crear filtro promediador (5 coeficientes)
+Test FIR Initialization: PASSED
+
+=== Test FIR Error Handling ===
+
+Test 1: Puntero NULL al filtro
+OK: Retornó 0.0 con puntero NULL
+
+Test 2: Filtro con demasiados coeficientes
+OK: Detectó filtro con demasiados coeficientes
+
+Test 3: Get_Fir con punteros NULL
+Test FIR Error Handling: PASSED
+
+========================================
+TODOS LOS TESTS FIR FILTER PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# FIR Filter Unit Tests
+# Fecha y hora: 2025-09-07 14:43:37
+########################################
+
+========================================
+    EJECUTANDO TESTS FIR FILTER
+========================================
+
+=== Test FIR Initialization ===
+
+Test 1: Crear filtro promediador (5 coeficientes)
+Test FIR Initialization: PASSED
+
+=== Test FIR Error Handling ===
+
+Test 1: Puntero NULL al filtro
+OK: Retornó 0.0 con puntero NULL
+
+Test 2: Filtro con demasiados coeficientes
+OK: Detectó filtro con demasiados coeficientes
+
+Test 3: Get_Fir con punteros NULL
+Test FIR Error Handling: PASSED
+
+========================================
+TODOS LOS TESTS FIR FILTER PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# FIR Filter Unit Tests
+# Fecha y hora: 2025-09-07 14:55:52
+########################################
+
+========================================
+    EJECUTANDO TESTS FIR FILTER
+========================================
+
+=== Test FIR Initialization ===
+
+Test 1: Crear filtro promediador (5 coeficientes)
+Test FIR Initialization: PASSED
+
+=== Test FIR Error Handling ===
+
+Test 1: Puntero NULL al filtro
+OK: Retornó 0.0 con puntero NULL
+
+Test 2: Filtro con demasiados coeficientes
+OK: Detectó filtro con demasiados coeficientes
+
+Test 3: Get_Fir con punteros NULL
+Test FIR Error Handling: PASSED
+
+========================================
+TODOS LOS TESTS FIR FILTER PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# FIR Filter Unit Tests
+# Fecha y hora: 2025-09-08 07:08:32
+########################################
+
+========================================
+    EJECUTANDO TESTS FIR FILTER
+========================================
+
+=== Test FIR Initialization ===
+
+Test 1: Crear filtro promediador (5 coeficientes)
+Test FIR Initialization: PASSED
+
+=== Test FIR Error Handling ===
+
+Test 1: Puntero NULL al filtro
+OK: Retornó 0.0 con puntero NULL
+
+Test 2: Filtro con demasiados coeficientes
+OK: Detectó filtro con demasiados coeficientes
+
+Test 3: Get_Fir con punteros NULL
+Test FIR Error Handling: PASSED
+
+========================================
+TODOS LOS TESTS FIR FILTER PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# FIR Filter Unit Tests
+# Fecha y hora: 2025-09-08 20:57:22
+########################################
+
+========================================
+    EJECUTANDO TESTS FIR FILTER
+========================================
+
+=== Test FIR Initialization ===
+
+Test 1: Crear filtro promediador (5 coeficientes)
+Test FIR Initialization: PASSED
+
+=== Test FIR Error Handling ===
+
+Test 1: Puntero NULL al filtro
+OK: Retornó 0.0 con puntero NULL
+
+Test 2: Filtro con demasiados coeficientes
+OK: Detectó filtro con demasiados coeficientes
+
+Test 3: Get_Fir con punteros NULL
+Test FIR Error Handling: PASSED
+
+========================================
+TODOS LOS TESTS FIR FILTER PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# FIR Filter Unit Tests
+# Fecha y hora: 2025-09-08 21:26:42
+########################################
+
+========================================
+    EJECUTANDO TESTS FIR FILTER
+========================================
+
+=== Test FIR Initialization ===
+
+Test 1: Crear filtro promediador (5 coeficientes)
+Test FIR Initialization: PASSED
+
+=== Test FIR Error Handling ===
+
+Test 1: Puntero NULL al filtro
+OK: Retornó 0.0 con puntero NULL
+
+Test 2: Filtro con demasiados coeficientes
+OK: Detectó filtro con demasiados coeficientes
+
+Test 3: Get_Fir con punteros NULL
+Test FIR Error Handling: PASSED
+
+========================================
+TODOS LOS TESTS FIR FILTER PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# FIR Filter Unit Tests
+# Fecha y hora: 2025-09-08 21:35:21
+########################################
+
+========================================
+    EJECUTANDO TESTS FIR FILTER
+========================================
+
+=== Test FIR Initialization ===
+
+Test 1: Crear filtro promediador (5 coeficientes)
+Test FIR Initialization: PASSED
+
+=== Test FIR Error Handling ===
+
+Test 1: Puntero NULL al filtro
+OK: Retornó 0.0 con puntero NULL
+
+Test 2: Filtro con demasiados coeficientes
+OK: Detectó filtro con demasiados coeficientes
+
+Test 3: Get_Fir con punteros NULL
+Test FIR Error Handling: PASSED
+
+========================================
+TODOS LOS TESTS FIR FILTER PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# FIR Filter Unit Tests
+# Fecha y hora: 2025-09-08 21:36:55
+########################################
+
+========================================
+    EJECUTANDO TESTS FIR FILTER
+========================================
+
+=== Test FIR Initialization ===
+
+Test 1: Crear filtro promediador (5 coeficientes)
+Test FIR Initialization: PASSED
+
+=== Test FIR Error Handling ===
+
+Test 1: Puntero NULL al filtro
+OK: Retornó 0.0 con puntero NULL
+
+Test 2: Filtro con demasiados coeficientes
+OK: Detectó filtro con demasiados coeficientes
+
+Test 3: Get_Fir con punteros NULL
+Test FIR Error Handling: PASSED
+
+========================================
+TODOS LOS TESTS FIR FILTER PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+

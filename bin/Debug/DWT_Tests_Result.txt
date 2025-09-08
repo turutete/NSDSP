@@ -1,0 +1,432 @@
+
+
+########################################
+# DWT (Discrete Wavelet Transform) Unit Tests
+# Fecha y hora: 2025-09-07 14:11:52
+# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=8
+# Tipo de filtro: DAUBECHIES 8
+########################################
+
+========================================
+    EJECUTANDO TESTS DWT
+========================================
+
+=== Test DWT Initialization ===
+
+Test 1: Inicialización de objeto DWT
+Verificando coeficientes del filtro...
+Coeficientes LP y HP inicializados correctamente
+Test DWT Initialization: PASSED
+
+=== Test DWT Functional ===
+Configuración: M=2 niveles de descomposición
+Usando filtro Daubechies 8
+
+Leyendo archivo de referencia: C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\Db8_M2_delta_1024.csv
+Formato del archivo de referencia:
+  D2: muestras 0-511 (512 muestras)
+  D1: muestras 512-767 (256 muestras)
+  A0: muestras 768-1023 (256 muestras)
+
+Procesando señal impulso de 1024 muestras...
+
+Muestras recolectadas:
+  D2: 512 muestras (esperadas: 512)
+  D1: 256 muestras (esperadas: 256)
+  A0: 256 muestras (esperadas: 256)
+
+Comparando resultados con referencia...
+
+--- Comparación D2 (Detalle Nivel 2) ---
+
+
+########################################
+# DWT (Discrete Wavelet Transform) Unit Tests
+# Fecha y hora: 2025-09-07 14:20:04
+# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=8
+# Tipo de filtro: DAUBECHIES 8
+########################################
+
+========================================
+    EJECUTANDO TESTS DWT
+========================================
+
+=== Test DWT Initialization ===
+
+Test 1: Inicialización de objeto DWT
+Verificando coeficientes del filtro...
+Coeficientes LP y HP inicializados correctamente
+Test DWT Initialization: PASSED
+
+=== Test DWT Functional ===
+Configuración: M=2 niveles de descomposición
+Usando filtro Daubechies 8
+
+Leyendo archivo de referencia: C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\Db8_M2_delta_1024.csv
+Formato del archivo de referencia:
+  D2: muestras 0-511 (512 muestras)
+  D1: muestras 512-767 (256 muestras)
+  A0: muestras 768-1023 (256 muestras)
+
+Procesando señal impulso de 1024 muestras...
+
+
+########################################
+# DWT (Discrete Wavelet Transform) Unit Tests
+# Fecha y hora: 2025-09-07 14:43:37
+# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=8
+# Tipo de filtro: DAUBECHIES 8
+########################################
+
+========================================
+    EJECUTANDO TESTS DWT
+========================================
+
+=== Test DWT Initialization ===
+
+Test 1: Inicialización de objeto DWT
+Verificando coeficientes del filtro...
+Coeficientes LP y HP inicializados correctamente
+Test DWT Initialization: PASSED
+
+=== Test DWT Functional ===
+Configuración: M=2 niveles de descomposición
+Usando filtro Daubechies 8
+
+Leyendo archivo de referencia: C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\Db8_M2_delta_1024.csv
+Formato del archivo de referencia:
+  D2: muestras 0-511 (512 muestras)
+  D1: muestras 512-767 (256 muestras)
+  A0: muestras 768-1023 (256 muestras)
+
+Procesando señal impulso de 1024 muestras...
+
+Muestras recolectadas:
+  D2: 512 muestras (esperadas: 512)
+  D1: 256 muestras (esperadas: 256)
+  A0: 256 muestras (esperadas: 256)
+
+Comparando resultados con referencia...
+
+--- Comparación D2 (Detalle Nivel 2) ---
+
+
+########################################
+# DWT (Discrete Wavelet Transform) Unit Tests
+# Fecha y hora: 2025-09-07 14:55:52
+# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=8
+# Tipo de filtro: DAUBECHIES 8
+########################################
+
+========================================
+    EJECUTANDO TESTS DWT
+========================================
+
+=== Test DWT Initialization ===
+
+Test 1: Inicialización de objeto DWT
+
+
+########################################
+# DWT (Discrete Wavelet Transform) Unit Tests
+# Fecha y hora: 2025-09-08 07:08:32
+# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=8
+# Tipo de filtro: DAUBECHIES 8
+########################################
+
+========================================
+    EJECUTANDO TESTS DWT
+========================================
+
+=== Test DWT Initialization ===
+
+Test 1: Inicialización de objeto DWT
+Verificando coeficientes del filtro...
+Coeficientes LP y HP inicializados correctamente
+Test DWT Initialization: PASSED
+
+=== Test DWT Functional ===
+Configuración: M=2 niveles de descomposición
+Usando filtro Daubechies 8
+
+Leyendo archivo de referencia: C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\Db8_M2_delta_1024.csv
+Formato del archivo de referencia:
+  D2: muestras 0-511 (512 muestras)
+  D1: muestras 512-767 (256 muestras)
+  A0: muestras 768-1023 (256 muestras)
+
+Procesando señal impulso de 1024 muestras...
+
+Muestras recolectadas:
+  D2: 512 muestras (esperadas: 512)
+  D1: 256 muestras (esperadas: 256)
+  A0: 256 muestras (esperadas: 256)
+
+Comparando resultados con referencia...
+
+--- Comparación D2 (Detalle Nivel 2) ---
+
+
+########################################
+# DWT (Discrete Wavelet Transform) Unit Tests
+# Fecha y hora: 2025-09-08 20:57:22
+# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=8
+# Tipo de filtro: DAUBECHIES 8
+########################################
+
+========================================
+    EJECUTANDO TESTS DWT
+========================================
+
+=== Test DWT Initialization ===
+
+Test 1: Inicialización de objeto DWT
+Verificando coeficientes del filtro...
+Coeficientes LP y HP inicializados correctamente
+Test DWT Initialization: PASSED
+
+=== Test DWT Functional ===
+Configuración: M=2 niveles de descomposición
+Usando filtro Daubechies 8
+
+Leyendo archivo de referencia: C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\Db8_M2_delta_1024.csv
+Formato del archivo de referencia:
+  D2: muestras 0-511 (512 muestras)
+  D1: muestras 512-767 (256 muestras)
+  A0: muestras 768-1023 (256 muestras)
+
+Procesando señal impulso de 1024 muestras...
+
+
+########################################
+# DWT (Discrete Wavelet Transform) Unit Tests
+# Fecha y hora: 2025-09-08 21:26:42
+# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=8
+# Tipo de filtro: DAUBECHIES 8
+########################################
+
+========================================
+    EJECUTANDO TESTS DWT
+========================================
+
+=== Test DWT Initialization ===
+
+Test 1: Inicialización de objeto DWT
+Verificando coeficientes del filtro...
+Coeficientes LP y HP inicializados correctamente
+Test DWT Initialization: PASSED
+
+=== Test DWT Functional ===
+Configuración: M=2 niveles de descomposición
+Usando filtro Daubechies 8
+
+Leyendo archivo de referencia: C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\Db8_M2_delta_1024.csv
+Formato del archivo de referencia:
+  D2: muestras 0-511 (512 muestras)
+  D1: muestras 512-767 (256 muestras)
+  A0: muestras 768-1023 (256 muestras)
+
+Procesando señal impulso de 1024 muestras...
+
+Muestras recolectadas:
+  D2: 512 muestras (esperadas: 512)
+  D1: 256 muestras (esperadas: 256)
+  A0: 256 muestras (esperadas: 256)
+
+Comparando resultados con referencia...
+
+--- Comparación D2 (Detalle Nivel 2) ---
+
+--- Comparación D1 (Detalle Nivel 1) ---
+
+--- Comparación A0 (Aproximación) ---
+
+========== Resumen de Comparación ==========
+D2 (Detalle Nivel 2):
+  Muestras comparadas: 512
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
+
+D1 (Detalle Nivel 1):
+  Muestras comparadas: 256
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
+
+A0 (Aproximación):
+  Muestras comparadas: 256
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
+=============================================
+
+Guardando resultados en C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\db8_result.csv...
+Archivo de resultados guardado correctamente
+
+Test DWT Functional: PASSED
+
+========================================
+TODOS LOS TESTS DWT PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# DWT (Discrete Wavelet Transform) Unit Tests
+# Fecha y hora: 2025-09-08 21:35:21
+# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=4
+# Tipo de filtro: DAUBECHIES 4
+########################################
+
+========================================
+    EJECUTANDO TESTS DWT
+========================================
+
+=== Test DWT Initialization ===
+
+Test 1: Inicialización de objeto DWT
+Verificando coeficientes del filtro...
+Coeficientes LP y HP inicializados correctamente
+Test DWT Initialization: PASSED
+
+=== Test DWT Functional ===
+Configuración: M=2 niveles de descomposición
+Usando filtro Daubechies 4
+
+Leyendo archivo de referencia: C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\Db4_M2_delta_1024.csv
+Formato del archivo de referencia:
+  D2: muestras 0-511 (512 muestras)
+  D1: muestras 512-767 (256 muestras)
+  A0: muestras 768-1023 (256 muestras)
+
+Procesando señal impulso de 1024 muestras...
+
+Muestras recolectadas:
+  D2: 512 muestras (esperadas: 512)
+  D1: 256 muestras (esperadas: 256)
+  A0: 256 muestras (esperadas: 256)
+
+Comparando resultados con referencia...
+
+--- Comparación D2 (Detalle Nivel 2) ---
+
+--- Comparación D1 (Detalle Nivel 1) ---
+
+--- Comparación A0 (Aproximación) ---
+
+========== Resumen de Comparación ==========
+D2 (Detalle Nivel 2):
+  Muestras comparadas: 512
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
+
+D1 (Detalle Nivel 1):
+  Muestras comparadas: 256
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
+
+A0 (Aproximación):
+  Muestras comparadas: 256
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
+=============================================
+
+Guardando resultados en C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\db4_result.csv...
+Archivo de resultados guardado correctamente
+
+Test DWT Functional: PASSED
+
+========================================
+TODOS LOS TESTS DWT PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# DWT (Discrete Wavelet Transform) Unit Tests
+# Fecha y hora: 2025-09-08 21:36:55
+# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=11
+# Tipo de filtro: LAGRANGE (M=3)
+########################################
+
+========================================
+    EJECUTANDO TESTS DWT
+========================================
+
+=== Test DWT Initialization ===
+
+Test 1: Inicialización de objeto DWT
+Verificando coeficientes del filtro...
+Coeficientes LP y HP inicializados correctamente
+Test DWT Initialization: PASSED
+
+=== Test DWT Functional ===
+Configuración: M=2 niveles de descomposición
+Usando filtro LAGRANGE con M=3
+
+Leyendo archivo de referencia: C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\lagrange_M2_R3_delta_1024.csv
+Formato del archivo de referencia:
+  D2: muestras 0-511 (512 muestras)
+  D1: muestras 512-767 (256 muestras)
+  A0: muestras 768-1023 (256 muestras)
+
+Procesando señal impulso de 1024 muestras...
+
+Muestras recolectadas:
+  D2: 512 muestras (esperadas: 512)
+  D1: 256 muestras (esperadas: 256)
+  A0: 256 muestras (esperadas: 256)
+
+Comparando resultados con referencia...
+
+--- Comparación D2 (Detalle Nivel 2) ---
+
+--- Comparación D1 (Detalle Nivel 1) ---
+
+--- Comparación A0 (Aproximación) ---
+
+========== Resumen de Comparación ==========
+D2 (Detalle Nivel 2):
+  Muestras comparadas: 512
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
+
+D1 (Detalle Nivel 1):
+  Muestras comparadas: 256
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
+
+A0 (Aproximación):
+  Muestras comparadas: 256
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
+=============================================
+
+Guardando resultados en C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\lagrange_result.csv...
+Archivo de resultados guardado correctamente
+
+Test DWT Functional: PASSED
+
+========================================
+TODOS LOS TESTS DWT PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+

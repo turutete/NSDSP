@@ -88,7 +88,7 @@
  * #define LAGRANGE    // Para usar filtros Lagrange
  * // o
  * #define DB4         // Para usar Daubechies 4
- * // o  
+ * // o
  * #define DB8         // Para usar Daubechies 8
  * \endcode
  *
@@ -100,12 +100,12 @@
  *   node [shape=box, style=filled];
  *
  *   INPUT [label="x[n]", shape=plaintext, fillcolor=white];
- *   
+ *
  *   subgraph cluster_level1 {
  *     label="Nivel 1";
  *     style=filled;
  *     color=lightgrey;
- *     
+ *
  *     LP1 [label="LP₁", fillcolor=lightblue];
  *     HP1 [label="HP₁", fillcolor=lightpink];
  *     D1 [label="↓2", shape=circle, fillcolor=lightyellow];
@@ -113,12 +113,12 @@
  *     OUT1 [label="D₁[k]", shape=plaintext, fillcolor=white];
  *     A1 [label="A₁[k]", shape=plaintext, fillcolor=white];
  *   }
- *   
+ *
  *   subgraph cluster_level2 {
  *     label="Nivel 2";
  *     style=filled;
  *     color=lightgrey;
- *     
+ *
  *     LP2 [label="LP₂", fillcolor=lightblue];
  *     HP2 [label="HP₂", fillcolor=lightpink];
  *     D3 [label="↓2", shape=circle, fillcolor=lightyellow];
@@ -301,14 +301,14 @@ static const float WAVELET_DB4_H0[4] = {
 #ifdef  DB8
 /* Coeficientes Daubechies 8 */
 static const float WAVELET_DB8_H0[8] = {
-    0.23037781330885523f,
-    0.71484657055254153f,
-    0.63088076792959036f,
-    -0.02798376941698385f,
-    -0.18703481171888114f,
-    0.03084138183598697f,
-    0.03288301166698295f,
-    -0.01059740178500278f
+   5.441584220000000e-02,
+   3.128715909000000e-01,
+   6.756307363000000e-01,
+   5.853546837000000e-01,
+   -1.582910530000000e-02,
+   -2.840155430000000e-01,
+   4.724846000000000e-04,
+   1.287474266000000e-01,
 };
 #endif /* DB8 */
 
@@ -422,6 +422,7 @@ void Dwt(float xin, DWT_OBJECT * dwt_object)
     float xinput;
     float yhtemp,yltemp;
 
+
     for (i=0;i<WAVELET_LEVELS;i++)
     {
         if (dwt_object->enabler[i]==0)
@@ -438,14 +439,15 @@ void Dwt(float xin, DWT_OBJECT * dwt_object)
             yhtemp = fir_api.fir_filter(xinput, &dwt_object->filtrohp[i]);
             yltemp = fir_api.fir_filter(xinput, &dwt_object->filtrolp[i]);
 
-            dwt_object->enabler[i]=(1<<i)-1;                   /* 2^i -1. El filtrado del nivel i se hace 1 muestra de cada 2^i de la señal
+
+            dwt_object->enabler[i]=(1<<i);                   /* 2^i -1. El filtrado del nivel i se hace 1 muestra de cada 2^i de la señal
                                                                     de entrada */
 
             if (dwt_object->decimator[i]==0)
             {
                 dwt_object->yhtemp[i]=yhtemp;
                 dwt_object->yltemp[i]=yltemp;
-                dwt_object->decimator[i]=(1<<(i+1))-1;          /* 2^(i+1)-1. La salida de los filtros LP HP del nivel i salen al
+                dwt_object->decimator[i]=(1<<(i+1));          /* 2^(i+1)-1. La salida de los filtros LP HP del nivel i salen al
                                                                     siguiente nivel cada 2^(i+1) muestras de la señal de entrada */
                 dwt_object->yout[i]=yhtemp;
                 if (i==(WAVELET_LEVELS-1))

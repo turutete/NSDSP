@@ -1,15 +1,22 @@
 # depslib dependency file v1.0
-1753017849 source:c:\workspace\c\windows_app\nsdsp\src\main.c
+1756539468 source:c:\workspace\c\windows_app\nsdsp\src\main.c
 	<stdio.h>
 	<stdlib.h>
 	"nsdsp.h"
 
-1753016908 source:c:\workspace\c\windows_app\nsdsp\src\nsdsp.c
+1756557218 source:c:\workspace\c\windows_app\nsdsp\src\nsdsp.c
 	"nsdsp.h"
 
-1753017822 c:\workspace\c\windows_app\nsdsp\includes\nsdsp.h
+1756553669 c:\workspace\c\windows_app\nsdsp\includes\nsdsp.h
 	"rt_momentos.h"
 	"nsdsp_statistical.h"
+	"lagrange_halfband.h"
+	"fir_filter.h"
+	"dwt.h"
+	"test_rt_momentos.h"
+	"test_lagrange_halfband.h"
+	"test_fir_filter.h"
+	"test_dwt.h"
 
 1753015639 c:\workspace\c\windows_app\nsdsp\includes\rt_momentos.h
 	<stdio.h>
@@ -18,11 +25,11 @@
 
 1752996039 c:\workspace\c\windows_app\nsdsp\includes\nsdsp_statistical.h
 
-1753881276 source:c:\workspace\c\windows_app\nsdsp\src\statistical_signal_processing\rt_momentos.c
+1754224800 source:c:\workspace\c\windows_app\nsdsp\src\statistical_signal_processing\rt_momentos.c
 	"nsdsp_statistical.h"
 	"rt_momentos.h"
 
-1754219623 source:c:\workspace\c\windows_app\nsdsp\src\unit_tests\test_rt_momentos.c
+1754224851 source:c:\workspace\c\windows_app\nsdsp\src\unit_tests\test_rt_momentos.c
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
@@ -30,4 +37,65 @@
 	<stdarg.h>
 	"rt_momentos.h"
 	"nsdsp_statistical.h"
+
+1754306439 c:\workspace\c\windows_app\nsdsp\includes\lagrange_halfband.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+
+1755522653 c:\workspace\c\windows_app\nsdsp\includes\fir_filter.h
+	<stddef.h>
+
+1757360174 c:\workspace\c\windows_app\nsdsp\includes\dwt.h
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"lagrange_halfband.h"
+	"fir_filter.h"
+
+1755254401 c:\workspace\c\windows_app\nsdsp\includes\test_rt_momentos.h
+
+1755254390 c:\workspace\c\windows_app\nsdsp\includes\test_lagrange_halfband.h
+
+1756539431 c:\workspace\c\windows_app\nsdsp\includes\test_fir_filter.h
+
+1756641967 c:\workspace\c\windows_app\nsdsp\includes\test_dwt.h
+
+1757248890 source:c:\workspace\c\windows_app\nsdsp\src\multirate_signal_processing\dwt.c
+	"dwt.h"
+
+1757241567 source:c:\workspace\c\windows_app\nsdsp\src\time_domain_signal_processing\fir_filter.c
+	"fir_filter.h"
+	<stdio.h>
+
+1756557061 source:c:\workspace\c\windows_app\nsdsp\src\time_domain_signal_processing\lagrange_halfband.c
+	<stdlib.h>
+	"lagrange_halfband.h"
+
+1757246128 source:c:\workspace\c\windows_app\nsdsp\src\unit_tests\test_dwt.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<time.h>
+	<stdarg.h>
+	<string.h>
+	"dwt.h"
+	"fir_filter.h"
+
+1756928500 source:c:\workspace\c\windows_app\nsdsp\src\unit_tests\test_fir_filter.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<time.h>
+	<stdarg.h>
+	"fir_filter.h"
+
+1755254277 source:c:\workspace\c\windows_app\nsdsp\src\unit_tests\test_lagrange_halfband.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<time.h>
+	<stdarg.h>
+	"lagrange_halfband.h"
+	"test_lagrange_halfband.h"
 

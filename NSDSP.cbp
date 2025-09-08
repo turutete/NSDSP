@@ -33,11 +33,47 @@
 			<Add option="-Wall" />
 			<Add directory="includes" />
 		</Compiler>
+		<Unit filename="includes/dwt.h" />
+		<Unit filename="includes/fir_filter.h" />
+		<Unit filename="includes/lagrange_halfband.h" />
 		<Unit filename="includes/nsdsp.h" />
 		<Unit filename="includes/nsdsp_statistical.h" />
 		<Unit filename="includes/rt_momentos.h" />
+		<Unit filename="includes/test_dwt.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="includes/test_fir_filter.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="includes/test_lagrange_halfband.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="includes/test_rt_momentos.h">
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="src/Multirate_Signal_Processing/DWT.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/Statistical_Signal_Processing/rt_momentos.c">
 			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Time_Domain_Signal_Processing/fir_filter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Time_Domain_Signal_Processing/lagrange_halfband.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Unit_Tests/test_dwt.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="src/Unit_Tests/test_fir_filter.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="src/Unit_Tests/test_lagrange_halfband.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="src/Unit_Tests/test_rt_momentos.c">
 			<Option compilerVar="CC" />

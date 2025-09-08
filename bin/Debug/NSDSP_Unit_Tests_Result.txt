@@ -1,0 +1,477 @@
+
+
+########################################
+# NSDSP Unit Tests - RT_MOMENTOS
+# Fecha y hora: 2025-09-07 14:11:52
+########################################
+
+========================================
+    EJECUTANDO TESTS RT_MOMENTOS
+========================================
+
+=== Test Init_RT_Momentos ===
+Test Init_RT_Momentos: PASSED
+
+=== Test Suscribe/Unsuscribe RT_Momentos ===
+Test Suscribe/Unsuscribe: PASSED
+
+=== Test Gaussian Signals ===
+
+Test 1: Señal gaussiana (media=0, std=1)
+Media: 0.129321 (esperado cerca de 0)
+Varianza: 0.907873 (esperado cerca de 1)
+Asimetría: 0.294905
+Curtosis: 1.862973
+
+Test 2: Señal gaussiana con offset (media=10, std=2)
+Media: 10.023188 (esperado cerca de 10)
+Varianza: 2.597432 (esperado cerca de 4)
+Asimetría: -0.058137
+Curtosis: 0.560169
+
+Test 3: Señal gaussiana con offset negativo (media=-5, std=0.5)
+Media: -5.041797 (esperado cerca de -5)
+Varianza: 0.256675 (esperado cerca de 0.25)
+Asimetría: 0.389598
+Curtosis: 2.018886
+
+Test 4: Señal gaussiana con más muestras (media=0, std=3)
+Media: 0.711253 (esperado cerca de 0)
+Varianza: 6.609048 (esperado cerca de 9)
+Asimetría: 0.429846 (esperado cerca de 0)
+Curtosis: 2.570123 (esperado cerca de 3)
+
+Test Gaussian Signals: PASSED
+
+========================================
+TODOS LOS TESTS PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# NSDSP Unit Tests - RT_MOMENTOS
+# Fecha y hora: 2025-09-07 14:20:04
+########################################
+
+========================================
+    EJECUTANDO TESTS RT_MOMENTOS
+========================================
+
+=== Test Init_RT_Momentos ===
+Test Init_RT_Momentos: PASSED
+
+=== Test Suscribe/Unsuscribe RT_Momentos ===
+Test Suscribe/Unsuscribe: PASSED
+
+=== Test Gaussian Signals ===
+
+Test 1: Señal gaussiana (media=0, std=1)
+Media: 0.129321 (esperado cerca de 0)
+Varianza: 0.907873 (esperado cerca de 1)
+Asimetría: 0.294905
+Curtosis: 1.862973
+
+Test 2: Señal gaussiana con offset (media=10, std=2)
+Media: 10.023188 (esperado cerca de 10)
+Varianza: 2.597432 (esperado cerca de 4)
+Asimetría: -0.058137
+Curtosis: 0.560169
+
+Test 3: Señal gaussiana con offset negativo (media=-5, std=0.5)
+Media: -5.041797 (esperado cerca de -5)
+Varianza: 0.256675 (esperado cerca de 0.25)
+Asimetría: 0.389598
+Curtosis: 2.018886
+
+Test 4: Señal gaussiana con más muestras (media=0, std=3)
+Media: 0.711253 (esperado cerca de 0)
+Varianza: 6.609048 (esperado cerca de 9)
+Asimetría: 0.429846 (esperado cerca de 0)
+Curtosis: 2.570123 (esperado cerca de 3)
+
+Test Gaussian Signals: PASSED
+
+========================================
+TODOS LOS TESTS PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# NSDSP Unit Tests - RT_MOMENTOS
+# Fecha y hora: 2025-09-07 14:43:37
+########################################
+
+========================================
+    EJECUTANDO TESTS RT_MOMENTOS
+========================================
+
+=== Test Init_RT_Momentos ===
+Test Init_RT_Momentos: PASSED
+
+=== Test Suscribe/Unsuscribe RT_Momentos ===
+Test Suscribe/Unsuscribe: PASSED
+
+=== Test Gaussian Signals ===
+
+Test 1: Señal gaussiana (media=0, std=1)
+Media: 0.129321 (esperado cerca de 0)
+Varianza: 0.907873 (esperado cerca de 1)
+Asimetría: 0.294905
+Curtosis: 1.862973
+
+Test 2: Señal gaussiana con offset (media=10, std=2)
+Media: 10.023188 (esperado cerca de 10)
+Varianza: 2.597432 (esperado cerca de 4)
+Asimetría: -0.058137
+Curtosis: 0.560169
+
+Test 3: Señal gaussiana con offset negativo (media=-5, std=0.5)
+Media: -5.041797 (esperado cerca de -5)
+Varianza: 0.256675 (esperado cerca de 0.25)
+Asimetría: 0.389598
+Curtosis: 2.018886
+
+Test 4: Señal gaussiana con más muestras (media=0, std=3)
+Media: 0.711253 (esperado cerca de 0)
+Varianza: 6.609048 (esperado cerca de 9)
+Asimetría: 0.429846 (esperado cerca de 0)
+Curtosis: 2.570123 (esperado cerca de 3)
+
+Test Gaussian Signals: PASSED
+
+========================================
+TODOS LOS TESTS PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# NSDSP Unit Tests - RT_MOMENTOS
+# Fecha y hora: 2025-09-07 14:55:52
+########################################
+
+========================================
+    EJECUTANDO TESTS RT_MOMENTOS
+========================================
+
+=== Test Init_RT_Momentos ===
+Test Init_RT_Momentos: PASSED
+
+=== Test Suscribe/Unsuscribe RT_Momentos ===
+Test Suscribe/Unsuscribe: PASSED
+
+=== Test Gaussian Signals ===
+
+Test 1: Señal gaussiana (media=0, std=1)
+Media: 0.129321 (esperado cerca de 0)
+Varianza: 0.907873 (esperado cerca de 1)
+Asimetría: 0.294905
+Curtosis: 1.862973
+
+Test 2: Señal gaussiana con offset (media=10, std=2)
+Media: 10.023188 (esperado cerca de 10)
+Varianza: 2.597432 (esperado cerca de 4)
+Asimetría: -0.058137
+Curtosis: 0.560169
+
+Test 3: Señal gaussiana con offset negativo (media=-5, std=0.5)
+Media: -5.041797 (esperado cerca de -5)
+Varianza: 0.256675 (esperado cerca de 0.25)
+Asimetría: 0.389598
+Curtosis: 2.018886
+
+Test 4: Señal gaussiana con más muestras (media=0, std=3)
+Media: 0.711253 (esperado cerca de 0)
+Varianza: 6.609048 (esperado cerca de 9)
+Asimetría: 0.429846 (esperado cerca de 0)
+Curtosis: 2.570123 (esperado cerca de 3)
+
+Test Gaussian Signals: PASSED
+
+========================================
+TODOS LOS TESTS PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# NSDSP Unit Tests - RT_MOMENTOS
+# Fecha y hora: 2025-09-08 07:08:32
+########################################
+
+========================================
+    EJECUTANDO TESTS RT_MOMENTOS
+========================================
+
+=== Test Init_RT_Momentos ===
+Test Init_RT_Momentos: PASSED
+
+=== Test Suscribe/Unsuscribe RT_Momentos ===
+Test Suscribe/Unsuscribe: PASSED
+
+=== Test Gaussian Signals ===
+
+Test 1: Señal gaussiana (media=0, std=1)
+Media: 0.129321 (esperado cerca de 0)
+Varianza: 0.907873 (esperado cerca de 1)
+Asimetría: 0.294905
+Curtosis: 1.862973
+
+Test 2: Señal gaussiana con offset (media=10, std=2)
+Media: 10.023188 (esperado cerca de 10)
+Varianza: 2.597432 (esperado cerca de 4)
+Asimetría: -0.058137
+Curtosis: 0.560169
+
+Test 3: Señal gaussiana con offset negativo (media=-5, std=0.5)
+Media: -5.041797 (esperado cerca de -5)
+Varianza: 0.256675 (esperado cerca de 0.25)
+Asimetría: 0.389598
+Curtosis: 2.018886
+
+Test 4: Señal gaussiana con más muestras (media=0, std=3)
+Media: 0.711253 (esperado cerca de 0)
+Varianza: 6.609048 (esperado cerca de 9)
+Asimetría: 0.429846 (esperado cerca de 0)
+Curtosis: 2.570123 (esperado cerca de 3)
+
+Test Gaussian Signals: PASSED
+
+========================================
+TODOS LOS TESTS PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# NSDSP Unit Tests - RT_MOMENTOS
+# Fecha y hora: 2025-09-08 20:57:22
+########################################
+
+========================================
+    EJECUTANDO TESTS RT_MOMENTOS
+========================================
+
+=== Test Init_RT_Momentos ===
+Test Init_RT_Momentos: PASSED
+
+=== Test Suscribe/Unsuscribe RT_Momentos ===
+Test Suscribe/Unsuscribe: PASSED
+
+=== Test Gaussian Signals ===
+
+Test 1: Señal gaussiana (media=0, std=1)
+Media: 0.129321 (esperado cerca de 0)
+Varianza: 0.907873 (esperado cerca de 1)
+Asimetría: 0.294905
+Curtosis: 1.862973
+
+Test 2: Señal gaussiana con offset (media=10, std=2)
+Media: 10.023188 (esperado cerca de 10)
+Varianza: 2.597432 (esperado cerca de 4)
+Asimetría: -0.058137
+Curtosis: 0.560169
+
+Test 3: Señal gaussiana con offset negativo (media=-5, std=0.5)
+Media: -5.041797 (esperado cerca de -5)
+Varianza: 0.256675 (esperado cerca de 0.25)
+Asimetría: 0.389598
+Curtosis: 2.018886
+
+Test 4: Señal gaussiana con más muestras (media=0, std=3)
+Media: 0.711253 (esperado cerca de 0)
+Varianza: 6.609048 (esperado cerca de 9)
+Asimetría: 0.429846 (esperado cerca de 0)
+Curtosis: 2.570123 (esperado cerca de 3)
+
+Test Gaussian Signals: PASSED
+
+========================================
+TODOS LOS TESTS PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# NSDSP Unit Tests - RT_MOMENTOS
+# Fecha y hora: 2025-09-08 21:26:42
+########################################
+
+========================================
+    EJECUTANDO TESTS RT_MOMENTOS
+========================================
+
+=== Test Init_RT_Momentos ===
+Test Init_RT_Momentos: PASSED
+
+=== Test Suscribe/Unsuscribe RT_Momentos ===
+Test Suscribe/Unsuscribe: PASSED
+
+=== Test Gaussian Signals ===
+
+Test 1: Señal gaussiana (media=0, std=1)
+Media: 0.129321 (esperado cerca de 0)
+Varianza: 0.907873 (esperado cerca de 1)
+Asimetría: 0.294905
+Curtosis: 1.862973
+
+Test 2: Señal gaussiana con offset (media=10, std=2)
+Media: 10.023188 (esperado cerca de 10)
+Varianza: 2.597432 (esperado cerca de 4)
+Asimetría: -0.058137
+Curtosis: 0.560169
+
+Test 3: Señal gaussiana con offset negativo (media=-5, std=0.5)
+Media: -5.041797 (esperado cerca de -5)
+Varianza: 0.256675 (esperado cerca de 0.25)
+Asimetría: 0.389598
+Curtosis: 2.018886
+
+Test 4: Señal gaussiana con más muestras (media=0, std=3)
+Media: 0.711253 (esperado cerca de 0)
+Varianza: 6.609048 (esperado cerca de 9)
+Asimetría: 0.429846 (esperado cerca de 0)
+Curtosis: 2.570123 (esperado cerca de 3)
+
+Test Gaussian Signals: PASSED
+
+========================================
+TODOS LOS TESTS PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# NSDSP Unit Tests - RT_MOMENTOS
+# Fecha y hora: 2025-09-08 21:35:21
+########################################
+
+========================================
+    EJECUTANDO TESTS RT_MOMENTOS
+========================================
+
+=== Test Init_RT_Momentos ===
+Test Init_RT_Momentos: PASSED
+
+=== Test Suscribe/Unsuscribe RT_Momentos ===
+Test Suscribe/Unsuscribe: PASSED
+
+=== Test Gaussian Signals ===
+
+Test 1: Señal gaussiana (media=0, std=1)
+Media: 0.129321 (esperado cerca de 0)
+Varianza: 0.907873 (esperado cerca de 1)
+Asimetría: 0.294905
+Curtosis: 1.862973
+
+Test 2: Señal gaussiana con offset (media=10, std=2)
+Media: 10.023188 (esperado cerca de 10)
+Varianza: 2.597432 (esperado cerca de 4)
+Asimetría: -0.058137
+Curtosis: 0.560169
+
+Test 3: Señal gaussiana con offset negativo (media=-5, std=0.5)
+Media: -5.041797 (esperado cerca de -5)
+Varianza: 0.256675 (esperado cerca de 0.25)
+Asimetría: 0.389598
+Curtosis: 2.018886
+
+Test 4: Señal gaussiana con más muestras (media=0, std=3)
+Media: 0.711253 (esperado cerca de 0)
+Varianza: 6.609048 (esperado cerca de 9)
+Asimetría: 0.429846 (esperado cerca de 0)
+Curtosis: 2.570123 (esperado cerca de 3)
+
+Test Gaussian Signals: PASSED
+
+========================================
+TODOS LOS TESTS PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
+
+
+########################################
+# NSDSP Unit Tests - RT_MOMENTOS
+# Fecha y hora: 2025-09-08 21:36:54
+########################################
+
+========================================
+    EJECUTANDO TESTS RT_MOMENTOS
+========================================
+
+=== Test Init_RT_Momentos ===
+Test Init_RT_Momentos: PASSED
+
+=== Test Suscribe/Unsuscribe RT_Momentos ===
+Test Suscribe/Unsuscribe: PASSED
+
+=== Test Gaussian Signals ===
+
+Test 1: Señal gaussiana (media=0, std=1)
+Media: 0.129321 (esperado cerca de 0)
+Varianza: 0.907873 (esperado cerca de 1)
+Asimetría: 0.294905
+Curtosis: 1.862973
+
+Test 2: Señal gaussiana con offset (media=10, std=2)
+Media: 10.023188 (esperado cerca de 10)
+Varianza: 2.597432 (esperado cerca de 4)
+Asimetría: -0.058137
+Curtosis: 0.560169
+
+Test 3: Señal gaussiana con offset negativo (media=-5, std=0.5)
+Media: -5.041797 (esperado cerca de -5)
+Varianza: 0.256675 (esperado cerca de 0.25)
+Asimetría: 0.389598
+Curtosis: 2.018886
+
+Test 4: Señal gaussiana con más muestras (media=0, std=3)
+Media: 0.711253 (esperado cerca de 0)
+Varianza: 6.609048 (esperado cerca de 9)
+Asimetría: 0.429846 (esperado cerca de 0)
+Curtosis: 2.570123 (esperado cerca de 3)
+
+Test Gaussian Signals: PASSED
+
+========================================
+TODOS LOS TESTS PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
