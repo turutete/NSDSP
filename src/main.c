@@ -146,6 +146,13 @@ int main(int argc, char *argv[])
         result = -1;
     }
 
+    /* Ejecutar tests de NSDSP Math */
+    test_result = Run_All_NSDSP_Math_Tests();
+    if (test_result != 0)
+    {
+        result = -1;
+    }
+
     /* Aquí se pueden añadir más tests de otros módulos cuando estén disponibles */
 
     if (result == 0)
