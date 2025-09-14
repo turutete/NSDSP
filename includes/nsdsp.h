@@ -7,6 +7,7 @@
 #include "lagrange_halfband.h"
 #include "fir_filter.h"
 #include "dwt.h"
+#include "nsdsp_math.h"
 
 // Función de inicialización principal
 extern void Init_NSDSP(void);
@@ -17,6 +18,7 @@ extern void Init_NSDSP(void);
 #include "test_lagrange_halfband.h"
 #include "test_fir_filter.h"
 #include "test_dwt.h"
+#include "test_nsdsp_math.h"
 #endif
 
 #endif // NSDSP_H_INCLUDED
