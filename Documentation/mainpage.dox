@@ -30,6 +30,7 @@
  *     NSDSP [label="NSDSP.h/c", fillcolor=lightblue];
  *     STAT [label="nsdsp_statistical.h", fillcolor=lightyellow];
  *     MATH [label="nsdsp_math.h/c", fillcolor=lightcyan];
+ *     ANN [label="ann.h/c", fillcolor=lightpink];
  *     
  *     subgraph cluster_resources {
  *       label="Recursos Disponibles";
@@ -43,6 +44,7 @@
  *   APP -> NSDSP [label="include"];
  *   NSDSP -> STAT;
  *   NSDSP -> MATH;
+ *   NSDSP -> ANN;
  *   NSDSP -> RT;
  *   NSDSP -> DWT;
  *   NSDSP -> FIR;
@@ -50,6 +52,7 @@
  *   STAT -> RT [label="vista de datos", style=dashed];
  *   DWT -> FIR [label="usa"];
  *   DWT -> LAG [label="usa"];
+ *   ANN -> MATH [label="usa matrices"];
  * }
  * \enddot
  *
@@ -97,6 +100,7 @@
  * 
  * Proporciona operaciones matemáticas avanzadas para procesamiento de señales:
  * - **Multiplicación de matrices**: Producto matricial optimizado
+ * - **Suma/Resta de matrices**: Operaciones elemento a elemento con control de signo
  * - **API estructurada**: Acceso mediante punteros a funciones
  * - **Validación completa**: Verificación de dimensiones y punteros
  * - **Gestión de errores**: Manejo robusto de casos excepcionales
@@ -106,6 +110,20 @@
  * - Memoria estática (sin malloc/free)
  * - Retorno de códigos de error
  * - Compatible con sistemas embebidos
+ *
+ * \subsection ann_networks ANN - Redes Neuronales Artificiales
+ * 
+ * Implementa redes neuronales feedforward con múltiples funciones de activación:
+ * - **Funciones de activación soportadas**: Sigmoid, Tanh, ReLU, Leaky ReLU, Softmax, Step
+ * - **Arquitectura configurable**: Hasta LMAX (4) capas
+ * - **Integración con NSDSP Math**: Usa operaciones matriciales optimizadas
+ * - **Memoria estática**: Sin asignación dinámica
+ *
+ * **Características:**
+ * - Creación de redes con matrices de pesos y bias predefinidas
+ * - Soporte para diferentes topologías de red
+ * - Vectores de entrada/salida configurables
+ * - Compatible con sistemas embebidos en tiempo real
  *
  * \section patron Patrón de Uso de Recursos
  *
@@ -130,7 +148,7 @@
  * }
  * \enddot
  *
- * \subsection patron_objetos Patrón de Objetos (DWT, FIR)
+ * \subsection patron_objetos Patrón de Objetos (DWT, FIR, ANN)
  *
  * \dot
  * digraph usage_objects {
@@ -156,12 +174,33 @@
  *   
  *   INIT [label="nsdsp_math_init()", style=filled, fillcolor=lightgreen];
  *   CREATE_DATA [label="Crear objetos MATRIZ", style=filled, fillcolor=lightyellow];
- *   CALL_API [label="nsdsp_math_api.product()", style=filled, fillcolor=lightblue];
+ *   CALL_API [label="nsdsp_math_api.product()\nnsdsp_math_api.suma()", style=filled, fillcolor=lightblue];
  *   CHECK [label="Verificar resultado", shape=diamond, fillcolor=lightcyan];
  *   
  *   INIT -> CREATE_DATA [label="1"];
  *   CREATE_DATA -> CALL_API [label="2"];
  *   CALL_API -> CHECK [label="3"];
+ * }
+ * \enddot
+ *
+ * \subsection patron_ann Patrón de Objetos ANN
+ *
+ * \dot
+ * digraph usage_ann {
+ *   rankdir=LR;
+ *   node [shape=box, style=rounded];
+ *   
+ *   INIT [label="Init_ANN()", style=filled, fillcolor=lightgreen];
+ *   CREATE_WEIGHTS [label="Crear matrices\nde pesos y bias", style=filled, fillcolor=lightyellow];
+ *   GET_SERVICE [label="ann_api.get_ann()", style=filled, fillcolor=lightblue];
+ *   CONFIG_IO [label="Configurar\nx0 e y0", style=filled, fillcolor=lightcyan];
+ *   PROCESS [label="Procesar datos\ncon la red", style=filled, fillcolor=lightpink];
+ *   
+ *   INIT -> CREATE_WEIGHTS [label="1"];
+ *   CREATE_WEIGHTS -> GET_SERVICE [label="2"];
+ *   GET_SERVICE -> CONFIG_IO [label="3"];
+ *   CONFIG_IO -> PROCESS [label="4"];
+ *   PROCESS -> PROCESS [label="5\nrepetir"];
  * }
  * \enddot
  *
@@ -196,6 +235,7 @@
  * - DWT: Variable según BUFFER_SIZE y WAVELET_LEVELS
  * - FIR: Variable según número de coeficientes por filtro
  * - NSDSP Math: Variable según tamaño de matrices utilizadas
+ * - ANN: Variable según número de capas y neuronas por capa
  *
  * \section uso Como Usar la Librería
  *
@@ -287,7 +327,7 @@
  *
  * \subsection paso3_math Paso 3d: Usar NSDSP Math (Patrón de API)
  * \code
- *     // Definir matrices
+ *     // Definir matrices para multiplicación
  *     float datos_a[6] = {1, 2, 3, 4, 5, 6};    // Matriz 2x3
  *     float datos_b[6] = {7, 8, 9, 10, 11, 12}; // Matriz 3x2
  *     float datos_c[4];                          // Matriz resultado 2x2
@@ -307,6 +347,50 @@
  *             printf("C[%d] = %f\n", i, datos_c[i]);
  *         }
  *     }
+ *     
+ *     // Definir matrices para suma/resta
+ *     float datos_m1[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+ *     float datos_m2[9] = {9, 8, 7, 6, 5, 4, 3, 2, 1};
+ *     float datos_suma[9];
+ *     
+ *     MATRIZ m1 = {3, 3, datos_m1};
+ *     MATRIZ m2 = {3, 3, datos_m2};
+ *     MATRIZ m_suma = {3, 3, datos_suma};
+ *     
+ *     // Sumar matrices (signo >= 0)
+ *     resultado = nsdsp_math_api.suma(&m1, &m2, &m_suma, 1);
+ *     
+ *     // Restar matrices (signo < 0)
+ *     resultado = nsdsp_math_api.suma(&m1, &m2, &m_suma, -1);
+ * \endcode
+ *
+ * \subsection paso3_ann Paso 3e: Usar ANN (Patrón de Objetos)
+ * \code
+ *     // Definir arquitectura de red: 3 entradas, 4 neuronas ocultas, 2 salidas
+ *     float w1_data[12] = {0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f,
+ *                          0.7f, 0.8f, 0.9f, 1.0f, 1.1f, 1.2f};
+ *     float b1_data[4] = {0.1f, 0.2f, 0.3f, 0.4f};
+ *     
+ *     float w2_data[8] = {0.1f, 0.2f, 0.3f, 0.4f,
+ *                         0.5f, 0.6f, 0.7f, 0.8f};
+ *     float b2_data[2] = {0.1f, 0.2f};
+ *     
+ *     MATRIZ pesos[2] = {{4, 3, w1_data}, {2, 4, w2_data}};
+ *     MATRIZ bias[2] = {{4, 1, b1_data}, {2, 1, b2_data}};
+ *     
+ *     // Crear red neuronal con función de activación RELU
+ *     ANN_SERVICE red = ann_api.get_ann(2, RELU, pesos, bias);
+ *     
+ *     // Preparar datos de entrada
+ *     float input_data[3] = {1.0f, 0.5f, -0.3f};
+ *     red.x0.pmatriz = input_data;
+ *     
+ *     // Preparar buffer de salida
+ *     float output_data[2];
+ *     red.y0.pmatriz = output_data;
+ *     
+ *     // Procesar datos (forward pass se implementaría en otra función)
+ *     // ann_api.forward(&red);
  * \endcode
  *
  * \subsection paso4 Paso 4: Finalizar
@@ -355,6 +439,17 @@
  *     MATRIZ ms2 = {2, 2, datos_s2};
  *     MATRIZ ms_res = {2, 2, datos_suma};
  *     
+ *     // Red neuronal: 2 entradas, 3 ocultas, 1 salida
+ *     float w1_ann[6] = {0.5f, -0.3f, 0.2f, 0.8f, -0.1f, 0.4f};
+ *     float b1_ann[3] = {0.1f, 0.2f, -0.1f};
+ *     float w2_ann[3] = {0.6f, 0.3f, -0.5f};
+ *     float b2_ann[1] = {0.15f};
+ *     MATRIZ pesos_ann[2] = {{3, 2, w1_ann}, {1, 3, w2_ann}};
+ *     MATRIZ bias_ann[2] = {{3, 1, b1_ann}, {1, 1, b2_ann}};
+ *     ANN_SERVICE red_neuronal;
+ *     float entrada_ann[2] = {0.5f, 0.8f};
+ *     float salida_ann[1];
+ *     
  *     // Inicializar librería completa
  *     Init_NSDSP();
  *     
@@ -362,6 +457,9 @@
  *     srv_momentos = pse.suscribe_rt_momentos();
  *     dwt_api.get_dwt(&dwt_obj);
  *     filtro = fir_api.get_fir(5, coefs, z_buffer);
+ *     red_neuronal = ann_api.get_ann(2, RELU, pesos_ann, bias_ann);
+ *     red_neuronal.x0.pmatriz = entrada_ann;
+ *     red_neuronal.y0.pmatriz = salida_ann;
  *     
  *     if (srv_momentos == NONE)
  *     {
@@ -388,6 +486,13 @@
  *             printf("  Suma[%d] = %.2f\n", i, datos_suma[i]);
  *         }
  *     }
+ *     
+ *     // Procesar con red neuronal
+ *     printf("Red neuronal configurada:\n");
+ *     printf("  Entrada: [%.2f, %.2f]\n", entrada_ann[0], entrada_ann[1]);
+ *     printf("  Capas: %u\n", red_neuronal.net.levels);
+ *     printf("  Función activación: %s\n", 
+ *            red_neuronal.trigger == RELU ? "RELU" : "OTRA");
  *     
  *     // Procesar 1000 muestras
  *     for (i = 0; i < 1000; i++)
@@ -461,6 +566,22 @@
  * #define NSDSP_MATH_KO  -1     // Código de retorno: error en operación
  * \endcode
  *
+ * \subsection config_ann Configuración ANN
+ * En ann.h:
+ * \code
+ * #define LMAX  4   // Número máximo de capas de la red
+ * 
+ * // Funciones de activación disponibles:
+ * typedef enum {
+ *     SIGMOID,  // Función sigmoide
+ *     TANH,     // Tangente hiperbólica
+ *     RELU,     // Rectified Linear Unit
+ *     LEAK,     // Leaky ReLU
+ *     SOFT,     // Softmax
+ *     STEP      // Función escalón
+ * } ANN_TRIGGER;
+ * \endcode
+ *
  * \section notas Notas Importantes
  *
  * - **Primeras N_MA muestras**: Los resultados de RT_Momentos no son válidos hasta procesar al menos N_MA (64) muestras
@@ -470,6 +591,8 @@
  * - **Orden de inicialización**: Init_NSDSP() debe llamarse antes que cualquier API específica
  * - **Objetos DWT/FIR**: No requieren liberación explícita, son automáticos
  * - **Validación de matrices**: NSDSP Math valida dimensiones y punteros antes de operar
+ * - **Redes neuronales**: Los pesos y bias deben ser definidos antes de crear el servicio ANN
+ * - **Límite de capas ANN**: Máximo LMAX (4) capas en una red neuronal
  *
  * \section compilacion Compilación
  *
@@ -503,12 +626,13 @@
  * - test_fir_filter.c: Tests para filtros FIR
  * - test_lagrange_halfband.c: Tests para filtros Lagrange
  * - test_nsdsp_math.c: Tests para operaciones matemáticas
+ * - test_ann.c: Tests para redes neuronales artificiales
  *
  * Los tests se ejecutan automáticamente en modo DEBUG y generan archivos de log con resultados detallados.
  *
  * \author Dr. Carlos Romero
- * \version 2.1
- * \date 13/09/2025
+ * \version 2.2
+ * \date 14/09/2025
  * 
  * \section historial_mainpage Historial de cambios
  * | Fecha | Autor | Versión | Descripción |
