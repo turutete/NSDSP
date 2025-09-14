@@ -3,8 +3,9 @@
  *
  * Este módulo contiene las funciones de test unitario para verificar el correcto
  * funcionamiento del módulo de operaciones matemáticas. Las pruebas validan
- * la multiplicación de matrices con diferentes configuraciones y casos límite.
- * Los tests solo se compilan y ejecutan en modo DEBUG.
+ * la multiplicación de matrices con diferentes configuraciones y casos límite,
+ * así como las operaciones de suma y resta de matrices. Los tests solo se
+ * compilan y ejecutan en modo DEBUG.
  *
  * \section uso_test_math Uso del módulo
  *
@@ -30,12 +31,71 @@
  * - Dimensiones incompatibles
  * - Punteros NULL
  *
+ * \dot
+ * digraph test_producto_flow {
+ *   rankdir=TB;
+ *   node [shape=box, style=filled];
+ *
+ *   START [label="Test_Matriz_Producto", fillcolor=lightgreen];
+ *   INIT [label="nsdsp_math_init()", fillcolor=lightyellow];
+ *   TEST1 [label="Test 2×3 × 3×2", fillcolor=lightblue];
+ *   TEST2 [label="Test matrices cuadradas", fillcolor=lightblue];
+ *   TEST3 [label="Test vectores", fillcolor=lightblue];
+ *   TEST4 [label="Test matriz identidad", fillcolor=lightblue];
+ *   TEST5 [label="Test dimensiones incompatibles", fillcolor=lightblue];
+ *   TEST6 [label="Test punteros NULL", fillcolor=lightblue];
+ *   RESULT [label="Retornar resultado", fillcolor=lightgreen];
+ *
+ *   START -> INIT -> TEST1 -> TEST2 -> TEST3 -> TEST4 -> TEST5 -> TEST6 -> RESULT;
+ * }
+ * \enddot
+ *
+ * \subsection test_matriz_suma Test_Matriz_Suma
+ * Verifica las operaciones de suma y resta de matrices:
+ * - Suma de matrices 3×3
+ * - Resta de matrices 3×3
+ * - Matrices de diferentes dimensiones
+ * - Punteros NULL
+ * - Verificación con signo = 0 (debe sumar)
+ *
+ * \dot
+ * digraph test_suma_flow {
+ *   rankdir=TB;
+ *   node [shape=box, style=filled];
+ *
+ *   START [label="Test_Matriz_Suma", fillcolor=lightgreen];
+ *   INIT [label="nsdsp_math_init()", fillcolor=lightyellow];
+ *   TEST1 [label="Test suma 3×3", fillcolor=lightblue];
+ *   TEST2 [label="Test resta 3×3", fillcolor=lightblue];
+ *   TEST3 [label="Test dimensiones incompatibles", fillcolor=lightblue];
+ *   TEST4 [label="Test punteros NULL", fillcolor=lightblue];
+ *   TEST5 [label="Test signo = 0", fillcolor=lightblue];
+ *   RESULT [label="Retornar resultado", fillcolor=lightgreen];
+ *
+ *   START -> INIT -> TEST1 -> TEST2 -> TEST3 -> TEST4 -> TEST5 -> RESULT;
+ * }
+ * \enddot
+ *
+ * \subsection run_all_math_tests Run_All_NSDSP_Math_Tests
+ * Función principal que ejecuta todos los tests y genera el reporte.
+ * - Abre archivo de log con timestamp
+ * - Ejecuta Test_Matriz_Producto
+ * - Ejecuta Test_Matriz_Suma
+ * - Genera resumen de resultados
+ * - Cierra archivo de log
+ *
+ * \section funciones_auxiliares_math Funciones auxiliares
+ * - **test_math_printf**: Escribe mensajes tanto en pantalla como en archivo de log
+ * - **float_equals_math**: Compara valores flotantes con tolerancia EPSILON_MATH
+ * - **print_matriz**: Imprime una matriz formateada para visualización
+ *
  * \author Dr. Carlos Romero
  *
  * \section historial_test_math Historial de cambios
  * | Fecha | Autor | Versión | Descripción |
  * |:-----:|:-----:|:-------:|:------------|
  * | 10/09/2025 | Dr. Carlos Romero | 1 | Implementación inicial de tests |
+ * | 13/09/2025 | Dr. Carlos Romero | 2 | Añadidos tests para suma/resta de matrices |
  *
  * \copyright ZGR R&D AIE
  */
@@ -59,6 +119,7 @@ static FILE *math_test_log_file = NULL;
 
 /* Declaración de funciones de test */
 int Test_Matriz_Producto(void);
+int Test_Matriz_Suma(void);
 int Run_All_NSDSP_Math_Tests(void);
 
 /* Funciones auxiliares */
@@ -167,7 +228,7 @@ int Test_Matriz_Producto(void)
 
     MATRIZ m1, m2, m3;
 
-     /* Inicializar el módulo */
+    /* Inicializar el módulo */
     nsdsp_math_init();
 
     test_math_printf("\n=== Test Matriz Producto ===\n");
@@ -417,6 +478,241 @@ int Test_Matriz_Producto(void)
     return result;
 }
 
+int Test_Matriz_Suma(void)
+{
+    int result = TEST_OK;
+    int ret;
+    unsigned int i;
+
+    /* Datos para test 1: Suma de matrices 3×3 */
+    float datos_m1_suma[9] = {1.0f, 2.0f, 3.0f,
+                              4.0f, 5.0f, 6.0f,
+                              7.0f, 8.0f, 9.0f};
+    float datos_m2_suma[9] = {9.0f, 8.0f, 7.0f,
+                              6.0f, 5.0f, 4.0f,
+                              3.0f, 2.0f, 1.0f};
+    float datos_m3_suma[9];
+    float esperado_suma[9] = {10.0f, 10.0f, 10.0f,
+                              10.0f, 10.0f, 10.0f,
+                              10.0f, 10.0f, 10.0f};
+
+    /* Datos para test 2: Resta de matrices 3×3 */
+    float esperado_resta[9] = {-8.0f, -6.0f, -4.0f,
+                                -2.0f, 0.0f, 2.0f,
+                                4.0f, 6.0f, 8.0f};
+
+    /* Datos para test 3: Matrices de diferentes dimensiones */
+    float datos_m1_diff[6] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f};
+    float datos_m2_diff[4] = {1.0f, 2.0f, 3.0f, 4.0f};
+    float datos_m3_diff[6];
+
+    MATRIZ m1, m2, m3;
+
+    /* Inicializar el módulo */
+    nsdsp_math_init();
+
+    test_math_printf("\n=== Test Matriz Suma/Resta ===\n");
+
+    /* Test 1: Suma de matrices 3×3 */
+    test_math_printf("\nTest 1: Suma de matrices 3×3\n");
+
+    m1.filas = 3;
+    m1.columnas = 3;
+    m1.pmatriz = datos_m1_suma;
+
+    m2.filas = 3;
+    m2.columnas = 3;
+    m2.pmatriz = datos_m2_suma;
+
+    m3.filas = 3;
+    m3.columnas = 3;
+    m3.pmatriz = datos_m3_suma;
+
+    ret = nsdsp_math_api.suma(&m1, &m2, &m3, 1);
+
+    if (ret != NSDSP_MATH_OK)
+    {
+        test_math_printf("ERROR: Fallo en suma con dimensiones válidas\n");
+        result = TEST_KO;
+    }
+    else
+    {
+        print_matriz("M1", &m1);
+        print_matriz("M2", &m2);
+        print_matriz("M3 (suma)", &m3);
+
+        for (i = 0; i < 9; i++)
+        {
+            if (!float_equals_math(datos_m3_suma[i], esperado_suma[i], EPSILON_MATH))
+            {
+                test_math_printf("ERROR: Elemento [%u] incorrecto: %.3f (esperado %.3f)\n",
+                               i, datos_m3_suma[i], esperado_suma[i]);
+                result = TEST_KO;
+            }
+        }
+
+        if (result == TEST_OK)
+        {
+            test_math_printf("Suma correcta\n");
+        }
+    }
+
+    /* Test 2: Resta de matrices 3×3 */
+    test_math_printf("\nTest 2: Resta de matrices 3×3\n");
+
+    ret = nsdsp_math_api.suma(&m1, &m2, &m3, -1);
+
+    if (ret != NSDSP_MATH_OK)
+    {
+        test_math_printf("ERROR: Fallo en resta con dimensiones válidas\n");
+        result = TEST_KO;
+    }
+    else
+    {
+        print_matriz("M3 (resta M1-M2)", &m3);
+
+        for (i = 0; i < 9; i++)
+        {
+            if (!float_equals_math(datos_m3_suma[i], esperado_resta[i], EPSILON_MATH))
+            {
+                test_math_printf("ERROR: Elemento [%u] incorrecto: %.3f (esperado %.3f)\n",
+                               i, datos_m3_suma[i], esperado_resta[i]);
+                result = TEST_KO;
+            }
+        }
+
+        if (result == TEST_OK)
+        {
+            test_math_printf("Resta correcta\n");
+        }
+    }
+
+    /* Test 3: Dimensiones incompatibles */
+    test_math_printf("\nTest 3: Dimensiones incompatibles (2×3 + 2×2)\n");
+
+    m1.filas = 2;
+    m1.columnas = 3;
+    m1.pmatriz = datos_m1_diff;
+
+    m2.filas = 2;
+    m2.columnas = 2;
+    m2.pmatriz = datos_m2_diff;
+
+    m3.filas = 2;
+    m3.columnas = 3;
+    m3.pmatriz = datos_m3_diff;
+
+    /* Inicializar m3 con valores no cero para verificar que se limpia */
+    for (i = 0; i < 6; i++)
+    {
+        datos_m3_diff[i] = 99.0f;
+    }
+
+    ret = nsdsp_math_api.suma(&m1, &m2, &m3, 1);
+
+    if (ret != NSDSP_MATH_KO)
+    {
+        test_math_printf("ERROR: No detectó dimensiones incompatibles\n");
+        result = TEST_KO;
+    }
+    else
+    {
+        /* Verificar que M3 se llenó con ceros */
+        for (i = 0; i < 6; i++)
+        {
+            if (!float_equals_math(datos_m3_diff[i], 0.0f, EPSILON_MATH))
+            {
+                test_math_printf("ERROR: M3[%u] no es cero: %.3f\n", i, datos_m3_diff[i]);
+                result = TEST_KO;
+                break;
+            }
+        }
+
+        if (i == 6)
+        {
+            test_math_printf("Detección de dimensiones incompatibles: PASSED\n");
+        }
+    }
+
+    /* Test 4: Punteros NULL */
+    test_math_printf("\nTest 4: Manejo de punteros NULL\n");
+
+    ret = nsdsp_math_api.suma(NULL, &m2, &m3, 1);
+    if (ret != NSDSP_MATH_KO)
+    {
+        test_math_printf("ERROR: No detectó puntero NULL en M1\n");
+        result = TEST_KO;
+    }
+
+    ret = nsdsp_math_api.suma(&m1, NULL, &m3, 1);
+    if (ret != NSDSP_MATH_KO)
+    {
+        test_math_printf("ERROR: No detectó puntero NULL en M2\n");
+        result = TEST_KO;
+    }
+
+    ret = nsdsp_math_api.suma(&m1, &m2, NULL, 1);
+    if (ret != NSDSP_MATH_KO)
+    {
+        test_math_printf("ERROR: No detectó puntero NULL en M3\n");
+        result = TEST_KO;
+    }
+    else
+    {
+        test_math_printf("Manejo de punteros NULL: PASSED\n");
+    }
+
+    /* Test 5: Verificar signo = 0 (debe sumar) */
+    test_math_printf("\nTest 5: Signo = 0 (debe sumar)\n");
+
+    m1.filas = 2;
+    m1.columnas = 2;
+    m1.pmatriz = datos_m1_diff;
+
+    m2.filas = 2;
+    m2.columnas = 2;
+    m2.pmatriz = datos_m2_diff;
+
+    m3.filas = 2;
+    m3.columnas = 2;
+    m3.pmatriz = datos_m3_diff;
+
+    ret = nsdsp_math_api.suma(&m1, &m2, &m3, 0);
+
+    if (ret != NSDSP_MATH_OK)
+    {
+        test_math_printf("ERROR: Fallo con signo = 0\n");
+        result = TEST_KO;
+    }
+    else
+    {
+        /* Verificar que se realizó la suma */
+        for (i = 0; i < 4; i++)
+        {
+            float esperado = datos_m1_diff[i] + datos_m2_diff[i];
+            if (!float_equals_math(datos_m3_diff[i], esperado, EPSILON_MATH))
+            {
+                test_math_printf("ERROR: Elemento [%u] incorrecto: %.3f (esperado %.3f)\n",
+                               i, datos_m3_diff[i], esperado);
+                result = TEST_KO;
+                break;
+            }
+        }
+
+        if (i == 4)
+        {
+            test_math_printf("Suma con signo = 0: PASSED\n");
+        }
+    }
+
+    if (result == TEST_OK)
+        test_math_printf("\nTest Matriz Suma/Resta: PASSED\n");
+    else
+        test_math_printf("\nTest Matriz Suma/Resta: FAILED\n");
+
+    return result;
+}
+
 int Run_All_NSDSP_Math_Tests(void)
 {
     int total_result = TEST_OK;
@@ -447,6 +743,9 @@ int Run_All_NSDSP_Math_Tests(void)
 
     /* Ejecutar tests */
     test_result = Test_Matriz_Producto();
+    if (test_result != TEST_OK) total_result = TEST_KO;
+
+    test_result = Test_Matriz_Suma();
     if (test_result != TEST_OK) total_result = TEST_KO;
 
     test_math_printf("\n========================================\n");

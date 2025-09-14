@@ -101,6 +101,8 @@
  * \subpage lagrange_halfband
  * \subpage fir_filter
  * \subpage wavelet_transform
+ * \subpage nsdsp_math
+ * \subpage ann
  *
  * \author Dr. Carlos Romero
  *
@@ -113,6 +115,7 @@
  * | 14/08/2025 | Dr. Carlos Romero | 4 | Cambio a módulo de descomposición wavelet únicamente |
  * | 28/08/2025 | Dr. Carlos Romero | 5 | Integración de DWT y FIR_FILTER, eliminación wavelet_decim |
  * | 13/09/2025 | Dr. Carlos Romero | 6 | Se añade inicialización de la librería nsdsp_math |
+ * | 14/09/2025 | Dr. Carlos Romero | 7 | Se añade primera versión de librería ANN (Artificial Neural Network)
  *
  * \copyright ZGR R&D AIE
  */
@@ -137,4 +140,7 @@ void Init_NSDSP(void)
 
     /* Inicializar el módulo NSDSP Math */
     nsdsp_math_init();
+
+    /* Inicializar el módulo ANN */
+    Init_ANN();
 }
