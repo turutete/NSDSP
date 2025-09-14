@@ -29,6 +29,7 @@
  *     
  *     NSDSP [label="NSDSP.h/c", fillcolor=lightblue];
  *     STAT [label="nsdsp_statistical.h", fillcolor=lightyellow];
+ *     MATH [label="nsdsp_math.h/c", fillcolor=lightcyan];
  *     
  *     subgraph cluster_resources {
  *       label="Recursos Disponibles";
@@ -41,6 +42,7 @@
  *   
  *   APP -> NSDSP [label="include"];
  *   NSDSP -> STAT;
+ *   NSDSP -> MATH;
  *   NSDSP -> RT;
  *   NSDSP -> DWT;
  *   NSDSP -> FIR;
@@ -91,6 +93,20 @@
  * - **Uso en DWT**: Integrado con la transformada wavelet
  * - **Generación automática**: Coeficientes calculados matemáticamente
  *
+ * \subsection nsdsp_math NSDSP Math - Operaciones Matemáticas
+ * 
+ * Proporciona operaciones matemáticas avanzadas para procesamiento de señales:
+ * - **Multiplicación de matrices**: Producto matricial optimizado
+ * - **API estructurada**: Acceso mediante punteros a funciones
+ * - **Validación completa**: Verificación de dimensiones y punteros
+ * - **Gestión de errores**: Manejo robusto de casos excepcionales
+ *
+ * **Características:**
+ * - Operaciones con matrices de cualquier dimensión
+ * - Memoria estática (sin malloc/free)
+ * - Retorno de códigos de error
+ * - Compatible con sistemas embebidos
+ *
  * \section patron Patrón de Uso de Recursos
  *
  * Los recursos de NSDSP siguen diferentes patrones según su tipo:
@@ -131,6 +147,24 @@
  * }
  * \enddot
  *
+ * \subsection patron_api Patrón de API (NSDSP Math)
+ *
+ * \dot
+ * digraph usage_api {
+ *   rankdir=LR;
+ *   node [shape=box, style=rounded];
+ *   
+ *   INIT [label="nsdsp_math_init()", style=filled, fillcolor=lightgreen];
+ *   CREATE_DATA [label="Crear objetos MATRIZ", style=filled, fillcolor=lightyellow];
+ *   CALL_API [label="nsdsp_math_api.product()", style=filled, fillcolor=lightblue];
+ *   CHECK [label="Verificar resultado", shape=diamond, fillcolor=lightcyan];
+ *   
+ *   INIT -> CREATE_DATA [label="1"];
+ *   CREATE_DATA -> CALL_API [label="2"];
+ *   CALL_API -> CHECK [label="3"];
+ * }
+ * \enddot
+ *
  * \subsection patron_utilitarios Patrón de Utilitarios (Lagrange)
  *
  * \dot
@@ -151,6 +185,7 @@
  * - stdio.h (para definiciones básicas)
  * - stdlib.h (para tipos estándar)
  * - math.h (para funciones matemáticas: sqrt, sin, cos, log)
+ * - stddef.h (para NULL y tipos de punteros)
  *
  * **Requisitos del compilador:**
  * - Soporte para C89/C90 o superior
@@ -160,6 +195,7 @@
  * - RT_Momentos: ~4KB (4 servicios × 4 buffers × 64 muestras × 4 bytes)
  * - DWT: Variable según BUFFER_SIZE y WAVELET_LEVELS
  * - FIR: Variable según número de coeficientes por filtro
+ * - NSDSP Math: Variable según tamaño de matrices utilizadas
  *
  * \section uso Como Usar la Librería
  *
@@ -249,6 +285,30 @@
  *     }
  * \endcode
  *
+ * \subsection paso3_math Paso 3d: Usar NSDSP Math (Patrón de API)
+ * \code
+ *     // Definir matrices
+ *     float datos_a[6] = {1, 2, 3, 4, 5, 6};    // Matriz 2x3
+ *     float datos_b[6] = {7, 8, 9, 10, 11, 12}; // Matriz 3x2
+ *     float datos_c[4];                          // Matriz resultado 2x2
+ *     
+ *     MATRIZ matriz_a = {2, 3, datos_a};
+ *     MATRIZ matriz_b = {3, 2, datos_b};
+ *     MATRIZ matriz_c = {2, 2, datos_c};
+ *     
+ *     // Multiplicar matrices
+ *     int resultado = nsdsp_math_api.product(&matriz_a, &matriz_b, &matriz_c);
+ *     
+ *     if (resultado == NSDSP_MATH_OK)
+ *     {
+ *         // Usar matriz resultado
+ *         for (int i = 0; i < 4; i++)
+ *         {
+ *             printf("C[%d] = %f\n", i, datos_c[i]);
+ *         }
+ *     }
+ * \endcode
+ *
  * \subsection paso4 Paso 4: Finalizar
  * \code
  *     return 0;
@@ -279,6 +339,22 @@
  *     float muestra, salida_fir;
  *     int i;
  *     
+ *     // Matrices para ejemplo de multiplicación
+ *     float datos_m1[6] = {1, 2, 3, 4, 5, 6};
+ *     float datos_m2[6] = {1, 0, 0, 1, 1, 0};
+ *     float datos_resultado[4];
+ *     MATRIZ m1 = {2, 3, datos_m1};
+ *     MATRIZ m2 = {3, 2, datos_m2};
+ *     MATRIZ m_res = {2, 2, datos_resultado};
+ *     
+ *     // Matrices para ejemplo de suma
+ *     float datos_s1[4] = {1, 2, 3, 4};
+ *     float datos_s2[4] = {5, 6, 7, 8};
+ *     float datos_suma[4];
+ *     MATRIZ ms1 = {2, 2, datos_s1};
+ *     MATRIZ ms2 = {2, 2, datos_s2};
+ *     MATRIZ ms_res = {2, 2, datos_suma};
+ *     
  *     // Inicializar librería completa
  *     Init_NSDSP();
  *     
@@ -291,6 +367,26 @@
  *     {
  *         printf("Error: No hay servicios de momentos disponibles\n");
  *         return -1;
+ *     }
+ *     
+ *     // Ejemplo de multiplicación de matrices
+ *     if (nsdsp_math_api.product(&m1, &m2, &m_res) == NSDSP_MATH_OK)
+ *     {
+ *         printf("Resultado de multiplicación matricial:\n");
+ *         for (i = 0; i < 4; i++)
+ *         {
+ *             printf("  Producto[%d] = %.2f\n", i, datos_resultado[i]);
+ *         }
+ *     }
+ *     
+ *     // Ejemplo de suma de matrices
+ *     if (nsdsp_math_api.suma(&ms1, &ms2, &ms_res, 1) == NSDSP_MATH_OK)
+ *     {
+ *         printf("Resultado de suma matricial:\n");
+ *         for (i = 0; i < 4; i++)
+ *         {
+ *             printf("  Suma[%d] = %.2f\n", i, datos_suma[i]);
+ *         }
  *     }
  *     
  *     // Procesar 1000 muestras
@@ -358,6 +454,13 @@
  * #define MAX_FIR_LENGTH  128   // Longitud máxima de filtro FIR
  * \endcode
  *
+ * \subsection config_math Configuración NSDSP Math
+ * En nsdsp_math.h:
+ * \code
+ * #define NSDSP_MATH_OK   0     // Código de retorno: operación exitosa
+ * #define NSDSP_MATH_KO  -1     // Código de retorno: error en operación
+ * \endcode
+ *
  * \section notas Notas Importantes
  *
  * - **Primeras N_MA muestras**: Los resultados de RT_Momentos no son válidos hasta procesar al menos N_MA (64) muestras
@@ -366,6 +469,7 @@
  * - **Thread safety**: La librería NO es thread-safe. Cada thread debe usar servicios/objetos diferentes
  * - **Orden de inicialización**: Init_NSDSP() debe llamarse antes que cualquier API específica
  * - **Objetos DWT/FIR**: No requieren liberación explícita, son automáticos
+ * - **Validación de matrices**: NSDSP Math valida dimensiones y punteros antes de operar
  *
  * \section compilacion Compilación
  *
@@ -386,9 +490,10 @@
  * Para añadir nuevos recursos a NSDSP:
  * 1. Crear el módulo siguiendo uno de los patrones existentes
  * 2. Añadir el header del nuevo recurso en nsdsp.h
- * 3. Llamar a Init_[nuevo_recurso]() desde Init_NSDSP()
+ * 3. Llamar a Init_[nuevo_recurso]() desde Init_NSDSP() si requiere inicialización
  * 4. Crear tests unitarios en test_[nuevo_recurso].c
  * 5. Documentar el nuevo recurso en esta página
+ * 6. Si usa API con punteros a funciones, inicializarlos en su función Init
  *
  * \section testing Tests Unitarios
  *
@@ -397,18 +502,21 @@
  * - test_dwt.c: Tests para transformada wavelet
  * - test_fir_filter.c: Tests para filtros FIR
  * - test_lagrange_halfband.c: Tests para filtros Lagrange
+ * - test_nsdsp_math.c: Tests para operaciones matemáticas
  *
  * Los tests se ejecutan automáticamente en modo DEBUG y generan archivos de log con resultados detallados.
  *
  * \author Dr. Carlos Romero
- * \version 2.0
- * \date 30/08/2025
+ * \version 2.1
+ * \date 13/09/2025
  * 
  * \section historial_mainpage Historial de cambios
  * | Fecha | Autor | Versión | Descripción |
  * |:-----:|:-----:|:-------:|:------------|
  * | 12/07/2025 | Dr. Carlos Romero | 1.0 | Primera versión |
  * | 30/08/2025 | Dr. Carlos Romero | 2.0 | Actualización completa con DWT, FIR y Lagrange |
+ * | 13/09/2025 | Dr. Carlos Romero | 2.1 | Añadido módulo NSDSP Math con operaciones matriciales |
+ * | 14/09/2025 | Dr. Carlos Romero | 2.2 | Añadido módulo ANN para redes neuronales artificiales |
  * 
  * \copyright ZGR R&D AIE
  */

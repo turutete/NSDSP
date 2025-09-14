@@ -17,6 +17,7 @@ typedef struct
 typedef struct
 {
     int (* product)(MATRIZ * PM1, MATRIZ * PM2, MATRIZ * PM3);
+    int (* suma)(MATRIZ * PM1, MATRIZ * PM2, MATRIZ * PM3, int signo);
 } NSDSP_MATH_API;
 
 /* API pública del módulo */
