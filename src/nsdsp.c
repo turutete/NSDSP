@@ -75,12 +75,13 @@
  *   LAG [label="lagrange_halfband.h/lagrange_halfband.c", fillcolor=lightyellow];
  *   FIR [label="fir_filter.h/fir_filter.c", fillcolor=lightyellow];
  *   DWT [label="dwt.h/dwt.c", fillcolor=lightyellow];
+ *   ANN [label="ann.h/ann.c", fillcolor=lightyellow];
  *
  *   subgraph cluster_lib {
  *     label="Librería NSDSP";
  *     style=filled;
  *     color=lightgrey;
- *     NSDSP; STAT; RT; LAG; FIR; DWT;
+ *     NSDSP; STAT; RT; LAG; FIR; DWT; ANN;
  *   }
  *
  *   APP -> NSDSP [label="include/llamadas"];
@@ -89,13 +90,14 @@
  *   NSDSP -> LAG [label="include"];
  *   NSDSP -> FIR [label="include"];
  *   NSDSP -> DWT [label="include"];
+ *   NSDSP -> ANN [label="include"];
  *   RT -> STAT [label="actualiza"];
  *   DWT -> LAG [label="usa"];
  *   DWT -> FIR [label="usa"];
  * }
  * \enddot
  *
- * *** Subpáginas ***
+ * \section Subpáginas
  *
  * \subpage rt_momentos
  * \subpage lagrange_halfband
