@@ -1,24 +1,26 @@
 # depslib dependency file v1.0
-1757756498 source:c:\workspace\c\windows_app\nsdsp\src\main.c
+1757848299 source:c:\workspace\c\windows_app\nsdsp\src\main.c
 	<stdio.h>
 	<stdlib.h>
 	"nsdsp.h"
 
-1757756120 source:c:\workspace\c\windows_app\nsdsp\src\nsdsp.c
+1757848186 source:c:\workspace\c\windows_app\nsdsp\src\nsdsp.c
 	"nsdsp.h"
 
-1757756554 c:\workspace\c\windows_app\nsdsp\includes\nsdsp.h
+1757847924 c:\workspace\c\windows_app\nsdsp\includes\nsdsp.h
 	"rt_momentos.h"
 	"nsdsp_statistical.h"
 	"lagrange_halfband.h"
 	"fir_filter.h"
 	"dwt.h"
 	"nsdsp_math.h"
+	"ann.h"
 	"test_rt_momentos.h"
 	"test_lagrange_halfband.h"
 	"test_fir_filter.h"
 	"test_dwt.h"
 	"test_nsdsp_math.h"
+	"test_ann.h"
 
 1753015639 c:\workspace\c\windows_app\nsdsp\includes\rt_momentos.h
 	<stdio.h>
@@ -101,15 +103,15 @@
 	"lagrange_halfband.h"
 	"test_lagrange_halfband.h"
 
-1757757131 c:\workspace\c\windows_app\nsdsp\includes\nsdsp_math.h
+1757761816 c:\workspace\c\windows_app\nsdsp\includes\nsdsp_math.h
 
 1757756722 c:\workspace\c\windows_app\nsdsp\includes\test_nsdsp_math.h
 
-1757755273 source:c:\workspace\c\windows_app\nsdsp\src\math\nsdsp_math.c
+1757761875 source:c:\workspace\c\windows_app\nsdsp\src\math\nsdsp_math.c
 	"nsdsp_math.h"
 	<stddef.h>
 
-1757756015 source:c:\workspace\c\windows_app\nsdsp\src\unit_tests\test_nsdsp_math.c
+1757836274 source:c:\workspace\c\windows_app\nsdsp\src\unit_tests\test_nsdsp_math.c
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
@@ -117,4 +119,26 @@
 	<stdarg.h>
 	"nsdsp_math.h"
 	"test_nsdsp_math.h"
+
+1758052430 source:c:\workspace\c\windows_app\nsdsp\src\artificial_neural_networks\ann.c
+	"ann.h"
+	"nsdsp_math.h"
+	<stddef.h>
+	<string.h>
+	<math.h>
+
+1758052047 c:\workspace\c\windows_app\nsdsp\includes\ann.h
+	"nsdsp_math.h"
+
+1757847725 c:\workspace\c\windows_app\nsdsp\includes\test_ann.h
+
+1758052408 source:c:\workspace\c\windows_app\nsdsp\src\unit_tests\test_ann.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	<time.h>
+	<stdarg.h>
+	"ann.h"
+	"nsdsp_math.h"
+	"test_ann.h"
 

@@ -4,7 +4,10 @@
 #include "nsdsp_math.h"
 
 /* Definiciones propias del módulo */
-#define LMAX 4  /* Número máximo de capas */
+#define LMAX 4      /* Número máximo de capas */
+#define ALPHA 0.01f /* Parámetro alpha para Leaky ReLU */
+#define ANN_OK  0
+#define ANN_KO  -1
 
 /* Enumerado para tipos de función de activación */
 typedef enum {
@@ -39,6 +42,8 @@ typedef struct {
 /* Declaración de la API */
 typedef struct {
     ANN_SERVICE (*get_ann)(unsigned int levels, ANN_TRIGGER trigger, MATRIZ *pesos, MATRIZ *bias);
+    int (*iterate)(ANN_SERVICE *service);
+    int (*trigger)(MATRIZ *input, MATRIZ *output, ANN_TRIGGER trigger);
 } ANN_API;
 
 /* API pública del módulo */

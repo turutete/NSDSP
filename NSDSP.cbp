@@ -33,6 +33,7 @@
 			<Add option="-Wall" />
 			<Add directory="includes" />
 		</Compiler>
+		<Unit filename="includes/ann.h" />
 		<Unit filename="includes/dwt.h" />
 		<Unit filename="includes/fir_filter.h" />
 		<Unit filename="includes/lagrange_halfband.h" />
@@ -40,6 +41,9 @@
 		<Unit filename="includes/nsdsp.h" />
 		<Unit filename="includes/nsdsp_statistical.h" />
 		<Unit filename="includes/rt_momentos.h" />
+		<Unit filename="includes/test_ann.h">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="includes/test_dwt.h">
 			<Option target="Debug" />
 		</Unit>
@@ -55,6 +59,9 @@
 		<Unit filename="includes/test_rt_momentos.h">
 			<Option target="Debug" />
 		</Unit>
+		<Unit filename="src/Artificial_Neural_Networks/ann.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="src/Math/nsdsp_math.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -69,6 +76,10 @@
 		</Unit>
 		<Unit filename="src/Time_Domain_Signal_Processing/lagrange_halfband.c">
 			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/Unit_Tests/test_ann.c">
+			<Option compilerVar="CC" />
+			<Option target="Debug" />
 		</Unit>
 		<Unit filename="src/Unit_Tests/test_dwt.c">
 			<Option compilerVar="CC" />

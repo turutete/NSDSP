@@ -995,8 +995,10 @@ INPUT                  = includes \
                          Documentation \
                          src/nsdsp.c \
                          src/Multirate_Signal_Processing \
-                         src/Unit_Tests \
-                         src/Statistical_Signal_Processing
+                         src/Statistical_Signal_Processing \
+                         src/Artificial_Neural_Networks \
+                         src/Math \
+                         src/Time_Domain_Signal_Processing
 
 # This tag can be used to specify the character encoding of the source files
 # that Doxygen parses. Internally Doxygen uses the UTF-8 encoding. Doxygen uses
