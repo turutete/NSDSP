@@ -2,9 +2,9 @@
 
 ########################################
 # DWT (Discrete Wavelet Transform) Unit Tests
-# Fecha y hora: 2025-09-07 14:05:47
-# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=4
-# Tipo de filtro: DAUBECHIES 4
+# Fecha y hora: 2025-09-21 10:03:44
+# Configuración: WAVELET_LEVELS=2, BUFFER_SIZE=11
+# Tipo de filtro: LAGRANGE (M=3)
 ########################################
 
 ========================================
@@ -20,9 +20,9 @@ Test DWT Initialization: PASSED
 
 === Test DWT Functional ===
 Configuración: M=2 niveles de descomposición
-Usando filtro Daubechies 4
+Usando filtro LAGRANGE con M=3
 
-Leyendo archivo de referencia: C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\Db4_M2_delta_1024.csv
+Leyendo archivo de referencia: C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\lagrange_M2_R3_delta_1024.csv
 Formato del archivo de referencia:
   D2: muestras 0-511 (512 muestras)
   D1: muestras 512-767 (256 muestras)
@@ -38,28 +38,23 @@ Muestras recolectadas:
 Comparando resultados con referencia...
 
 --- Comparación D2 (Detalle Nivel 2) ---
-  Error D2[0]: calc=0.129410, ref=-0.129410, diff=0.258819
-  Error D2[1]: calc=-0.836516, ref=0.836516, diff=1.673033
 
 --- Comparación D1 (Detalle Nivel 1) ---
-  Error D1[0]: calc=0.062500, ref=-0.062500, diff=0.125000
-  Error D1[1]: calc=-0.353766, ref=0.353766, diff=0.707532
-  Error D1[2]: calc=0.108253, ref=-0.108253, diff=0.216506
 
 --- Comparación A0 (Aproximación) ---
 
 ========== Resumen de Comparación ==========
 D2 (Detalle Nivel 2):
   Muestras comparadas: 512
-  Errores encontrados: 2
-  Error máximo: 1.673033
-  Resultado: DIFERENCIAS ENCONTRADAS
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
 
 D1 (Detalle Nivel 1):
   Muestras comparadas: 256
-  Errores encontrados: 3
-  Error máximo: 0.707532
-  Resultado: DIFERENCIAS ENCONTRADAS
+  Errores encontrados: 0
+  Error máximo: 0.000000
+  Resultado: EXACTO
 
 A0 (Aproximación):
   Muestras comparadas: 256
@@ -68,14 +63,8 @@ A0 (Aproximación):
   Resultado: EXACTO
 =============================================
 
-Guardando resultados en C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\db4_result.csv...
+Guardando resultados en C:\Workspace\C\Windows_App\NSDSP\src\Unit_Tests\lagrange_result.csv...
 Archivo de resultados guardado correctamente
-
-ADVERTENCIA: Se encontraron diferencias con el archivo de referencia
-Posibles causas:
-- Diferencias en la implementación del algoritmo
-- Diferencias de precisión numérica
-- Diferencias en las condiciones iniciales
 
 Test DWT Functional: PASSED
 
