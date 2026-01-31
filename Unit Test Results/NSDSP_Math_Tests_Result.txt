@@ -1,0 +1,87 @@
+
+
+########################################
+# NSDSP Math Unit Tests
+# Fecha y hora: 2025-09-21 10:03:44
+########################################
+
+========================================
+    EJECUTANDO TESTS NSDSP MATH
+========================================
+
+=== Test Matriz Producto ===
+
+Test 1: Multiplicación 2×3 × 3×2 = 2×2
+M1 (2×3):
+  [   1.000   2.000   3.000 ]
+  [   4.000   5.000   6.000 ]
+M2 (3×2):
+  [   7.000   8.000 ]
+  [   9.000  10.000 ]
+  [  11.000  12.000 ]
+M3 (resultado) (2×2):
+  [  58.000  64.000 ]
+  [ 139.000 154.000 ]
+Resultado correcto
+
+Test 2: Matrices cuadradas 3×3
+Matrices cuadradas: PASSED
+
+Test 3: Vector fila (1×4) × Vector columna (4×1) = Escalar (1×1)
+Resultado: 40.000 (esperado 40.000)
+Producto escalar: PASSED
+
+Test 4: Multiplicación por matriz identidad
+Matriz identidad: PASSED
+
+Test 5: Dimensiones incompatibles (2×3 × 2×2)
+Detección de dimensiones incompatibles: PASSED
+
+Test 6: Manejo de punteros NULL
+Manejo de punteros NULL: PASSED
+
+Test Matriz Producto: PASSED
+
+=== Test Matriz Suma/Resta ===
+
+Test 1: Suma de matrices 3×3
+M1 (3×3):
+  [   1.000   2.000   3.000 ]
+  [   4.000   5.000   6.000 ]
+  [   7.000   8.000   9.000 ]
+M2 (3×3):
+  [   9.000   8.000   7.000 ]
+  [   6.000   5.000   4.000 ]
+  [   3.000   2.000   1.000 ]
+M3 (suma) (3×3):
+  [  10.000  10.000  10.000 ]
+  [  10.000  10.000  10.000 ]
+  [  10.000  10.000  10.000 ]
+Suma correcta
+
+Test 2: Resta de matrices 3×3
+M3 (resta M1-M2) (3×3):
+  [  -8.000  -6.000  -4.000 ]
+  [  -2.000   0.000   2.000 ]
+  [   4.000   6.000   8.000 ]
+Resta correcta
+
+Test 3: Dimensiones incompatibles (2×3 + 2×2)
+Detección de dimensiones incompatibles: PASSED
+
+Test 4: Manejo de punteros NULL
+Manejo de punteros NULL: PASSED
+
+Test 5: Signo = 0 (debe sumar)
+Suma con signo = 0: PASSED
+
+Test Matriz Suma/Resta: PASSED
+
+========================================
+TODOS LOS TESTS NSDSP MATH PASARON CORRECTAMENTE
+========================================
+
+
+# Resumen Final: SUCCESS - Todos los tests pasaron
+########################################
+
